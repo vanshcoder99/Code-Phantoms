@@ -1,0 +1,41 @@
+========================================
+  FINBUDDY — QUICK START (2 MINUTES)
+========================================
+
+FIRST TIME SETUP:
+─────────────────
+1. Unzip the project folder
+2. Get FREE Groq API key from: console.groq.com
+3. Open VS Code → Open the finvasia-hack folder
+
+BACKEND SETUP (do once):
+─────────────────────────
+Open Terminal in VS Code and type:
+ 
+  cd backend
+  pip install -r requirements.txt
+
+Create a file called ".env" inside backend folder.
+Write this inside it:
+  GROQ_API_KEY=your-key-here
+
+EVERY TIME YOU WANT TO RUN:
+─────────────────────────────
+Terminal 1 (AI Server):
+  cd backend
+  uvicorn main:app --reload
+
+Terminal 2 (Website) — open NEW terminal:
+  cd frontend
+  npm install    ← only first time
+  npm start
+
+Open browser: http://localhost:3000
+
+DONE! App is running 🎉
+
+========================================
+NEED HELP?
+Read the full README.md file
+or contact: [your name/number]
+========================================
