@@ -15,7 +15,7 @@ export default function Dashboard({ darkMode }) {
 
   const fetchDashboard = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/v1/dashboard`);
+      const response = await axios.get(`${API_BASE}/ai/dashboard`);
       setStats(response.data);
     } catch (err) {
       console.error(err);
@@ -81,6 +81,7 @@ export default function Dashboard({ darkMode }) {
   }
 
   return (
+    
     <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} py-12 px-4`}>
       <div className="max-w-7xl mx-auto">
         <h1 className={`text-4xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
@@ -328,6 +329,70 @@ export default function Dashboard({ darkMode }) {
               </p>
             </div>
           </div>
+
+          {/* ML Investor Profile Predictor */}
+        <div className={`mt-12 p-8 rounded-lg shadow-lg ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
+          <h2 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+            🤖 ML Investor Profile Predictor
+          </h2>
+          <p className={`mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            Powered by Random Forest Classifier (scikit-learn)
+          </p>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <label className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Age</label>
+              <input id="ml-age" type="number" defaultValue="20"
+                className={`w-full p-3 rounded-lg mt-1 ${darkMode ? 'bg-quaternary text-white border border-gray-600' : 'bg-gray-100 text-gray-900 border border-gray-300'}`} />
+            </div>
+            <div>
+              <label className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Monthly Savings (₹)</label>
+              <input id="ml-savings" type="number" defaultValue="1000"
+                className={`w-full p-3 rounded-lg mt-1 ${darkMode ? 'bg-quaternary text-white border border-gray-600' : 'bg-gray-100 text-gray-900 border border-gray-300'}`} />
+            </div>
+            <div>
+              <label className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Fear Score (0-100)</label>
+              <input id="ml-fear" type="number" defaultValue="60"
+                className={`w-full p-3 rounded-lg mt-1 ${darkMode ? 'bg-quaternary text-white border border-gray-600' : 'bg-gray-100 text-gray-900 border border-gray-300'}`} />
+            </div>
+            <div>
+              <label className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Knowledge Score (0-100)</label>
+              <input id="ml-knowledge" type="number" defaultValue="20"
+                className={`w-full p-3 rounded-lg mt-1 ${darkMode ? 'bg-quaternary text-white border border-gray-600' : 'bg-gray-100 text-gray-900 border border-gray-300'}`} />
+            </div>
+          </div>
+          <button
+            onClick={async () => {
+              try {
+                const res = await fetch('http://127.0.0.1:8000/ai/predict-profile', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    age: Number(document.getElementById('ml-age').value),
+                    monthly_savings: Number(document.getElementById('ml-savings').value),
+                    fear_score: Number(document.getElementById('ml-fear').value),
+                    knowledge_score: Number(document.getElementById('ml-knowledge').value),
+                  })
+                });
+                const data = await res.json();
+                document.getElementById('ml-result').innerHTML = `
+                  <p class="text-xl font-bold" style="color:#00D4FF">${data.profile_type}</p>
+                  <p style="color:#d1d5db;margin-top:8px">📊 ${data.recommended_allocation}</p>
+                  <p style="color:#10b981;margin-top:4px">📈 Expected Return: ${data.expected_return}</p>
+                  <p style="color:#fbbf24;margin-top:4px">🎯 ML Confidence: ${data.confidence_percent}%</p>
+                  <p style="color:#6b7280;margin-top:8px;font-size:12px">Model: ${data.ml_model_used} | Framework: ${data.framework}</p>
+                `;
+              } catch(e) {
+                document.getElementById('ml-result').innerHTML = '<p style="color:red">Make sure backend is running!</p>';
+              }
+            }}
+            className="w-full bg-primary text-white py-3 rounded-lg font-bold hover:opacity-90 transition mb-4"
+          >
+            🔮 Predict My Investor Profile
+          </button>
+          <div id="ml-result" className={`p-4 rounded-lg min-h-16 ${darkMode ? 'bg-quaternary' : 'bg-gray-100'}`}></div>
+        </div>
+
+
         </div>
       </div>
     </div>

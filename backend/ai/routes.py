@@ -1,3 +1,6 @@
+from ai.risk_model import predict_investor_profile
+from ai.data_analysis import analyze_stock
+
 from fastapi import APIRouter
 from pydantic import BaseModel
 from ai.llm_service import (
@@ -46,3 +49,26 @@ def chat(req: ChatRequest):
 def reset():
     result = reset_memory()
     return {"reply": result}
+
+class ProfileRequest(BaseModel):
+    age: int
+    monthly_savings: float
+    fear_score: int
+    knowledge_score: int
+
+class StockAnalysisRequest(BaseModel):
+    stock: str
+
+@router.post("/ai/predict-profile")
+def predict_profile(req: ProfileRequest):
+    result = predict_investor_profile(
+        req.age,
+        req.monthly_savings,
+        req.fear_score,
+        req.knowledge_score
+    )
+    return result
+
+@router.post("/ai/analyze-stock")
+def analyze(req: StockAnalysisRequest):
+    return analyze_stock(req.stock)

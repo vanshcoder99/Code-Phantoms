@@ -12,6 +12,8 @@ import Resources from './pages/Resources';
 import Profile from './pages/Profile';
 import SimulationHistory from './pages/SimulationHistory';
 import About from './pages/About';
+import SIPCalculator from './pages/SIPCalculator';
+import Portfolio from './pages/Portfolio';
 import './App.css';
 
 function Home({ darkMode, onStartSimulation }) {
@@ -30,12 +32,12 @@ function App() {
   const [darkMode, setDarkMode] = useState(true);
 
   const handleStartSimulation = () => {
-    document.getElementById('simulator').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('simulator')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <Router>
-      <div className={darkMode ? 'bg-quaternary text-white' : 'bg-white text-quaternary'}>
+      <div className={darkMode ? 'bg-quaternary text-white min-h-screen' : 'bg-white text-quaternary min-h-screen'}>
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
         <Routes>
           <Route path="/" element={<Home darkMode={darkMode} onStartSimulation={handleStartSimulation} />} />
@@ -44,6 +46,9 @@ function App() {
           <Route path="/profile" element={<Profile darkMode={darkMode} />} />
           <Route path="/history" element={<SimulationHistory darkMode={darkMode} />} />
           <Route path="/about" element={<About darkMode={darkMode} />} />
+          <Route path="/sip" element={<SIPCalculator darkMode={darkMode} />} />
+          <Route path="/portfolio" element={<Portfolio darkMode={darkMode} />} />
+          <Route path="*" element={<Home darkMode={darkMode} onStartSimulation={handleStartSimulation} />} />
         </Routes>
         <Footer darkMode={darkMode} />
       </div>

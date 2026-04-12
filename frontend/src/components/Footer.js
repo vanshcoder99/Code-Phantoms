@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Github, Linkedin } from 'lucide-react';
+import { Mail, GitBranch, Linkedin } from 'lucide-react';
 
 export default function Footer({ darkMode }) {
   return (
@@ -32,7 +32,7 @@ export default function Footer({ darkMode }) {
                 <Mail className="w-5 h-5" />
               </a>
               <a href="#" className="hover:text-white transition">
-                <Github className="w-5 h-5" />
+                <GitBranch className="w-5 h-5" />
               </a>
               <a href="#" className="hover:text-white transition">
                 <Linkedin className="w-5 h-5" />

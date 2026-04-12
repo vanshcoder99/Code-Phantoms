@@ -17,7 +17,7 @@ export default function RiskSimulator({ darkMode }) {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post(`${API_BASE}/api/v1/simulate-risk`, {
+      const response = await axios.post(`${API_BASE}/v1/simulate-risk`, {
         initial_amount: initialAmount,
         time_period: timePeriod,
         risk_level: riskLevel,
