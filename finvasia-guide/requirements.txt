@@ -1,0 +1,18 @@
+# FinBuddy — Backend Requirements
+# Install all these by running:
+# pip install -r requirements.txt
+
+# AI API — talks to Groq AI
+groq==0.9.0
+
+# Web server framework — creates API endpoints
+fastapi==0.110.0
+
+# Server runner — runs FastAPI
+uvicorn==0.27.0
+
+# Reads .env file for API key
+python-dotenv==1.0.0
+
+# Data validation for API requests
+pydantic==2.6.0
