@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './AuthContext';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import RiskSimulator from './components/RiskSimulator';
@@ -7,6 +8,7 @@ import AIExplainer from './components/AIExplainer';
 import LossProbabilityMeter from './components/LossProbabilityMeter';
 import LearningSection from './components/LearningSection';
 import Footer from './components/Footer';
+import FloatingChatbot from './components/FloatingChatbot';
 import Dashboard from './pages/Dashboard';
 import Resources from './pages/Resources';
 import Profile from './pages/Profile';
@@ -14,7 +16,42 @@ import SimulationHistory from './pages/SimulationHistory';
 import About from './pages/About';
 import SIPCalculator from './pages/SIPCalculator';
 import Portfolio from './pages/Portfolio';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import FearQuiz from './pages/FearQuiz';
 import './App.css';
+
+// Protected Route - redirects to login if not authenticated
+function ProtectedRoute({ children, darkMode }) {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} flex items-center justify-center`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className={darkMode ? 'text-white' : 'text-quaternary'}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
+// Guest Route - redirects to dashboard if already logged in
+function GuestRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) return null;
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+
+  return children;
+}
 
 function Home({ darkMode, onStartSimulation }) {
   return (
@@ -28,7 +65,7 @@ function Home({ darkMode, onStartSimulation }) {
   );
 }
 
-function AppWithRouting() {
+function AppContent() {
   const [darkMode, setDarkMode] = useState(true);
 
   const handleStartSimulation = () => {
@@ -36,22 +73,55 @@ function AppWithRouting() {
   };
 
   return (
+    <div className={darkMode ? 'bg-quaternary text-white min-h-screen' : 'bg-white text-quaternary min-h-screen'}>
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home darkMode={darkMode} onStartSimulation={handleStartSimulation} />} />
+        <Route path="/about" element={<About darkMode={darkMode} />} />
+        <Route path="/resources" element={<Resources darkMode={darkMode} />} />
+        <Route path="/sip" element={<SIPCalculator darkMode={darkMode} />} />
+        <Route path="/fear-quiz" element={<FearQuiz darkMode={darkMode} />} />
+
+        {/* Auth Routes (guest only) */}
+        <Route path="/login" element={
+          <GuestRoute><Login darkMode={darkMode} /></GuestRoute>
+        } />
+        <Route path="/signup" element={
+          <GuestRoute><Signup darkMode={darkMode} /></GuestRoute>
+        } />
+
+        {/* Protected Routes */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute darkMode={darkMode}><Dashboard darkMode={darkMode} /></ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute darkMode={darkMode}><Profile darkMode={darkMode} /></ProtectedRoute>
+        } />
+        <Route path="/history" element={
+          <ProtectedRoute darkMode={darkMode}><SimulationHistory darkMode={darkMode} /></ProtectedRoute>
+        } />
+        <Route path="/portfolio" element={
+          <ProtectedRoute darkMode={darkMode}><Portfolio darkMode={darkMode} /></ProtectedRoute>
+        } />
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      <Footer darkMode={darkMode} />
+
+      {/* Floating AI Chatbot - visible on every page */}
+      <FloatingChatbot darkMode={darkMode} />
+    </div>
+  );
+}
+
+function AppWithRouting() {
+  return (
     <Router>
-      <div className={darkMode ? 'bg-quaternary text-white min-h-screen' : 'bg-white text-quaternary min-h-screen'}>
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-        <Routes>
-          <Route path="/" element={<Home darkMode={darkMode} onStartSimulation={handleStartSimulation} />} />
-          <Route path="/dashboard" element={<Dashboard darkMode={darkMode} />} />
-          <Route path="/resources" element={<Resources darkMode={darkMode} />} />
-          <Route path="/profile" element={<Profile darkMode={darkMode} />} />
-          <Route path="/history" element={<SimulationHistory darkMode={darkMode} />} />
-          <Route path="/about" element={<About darkMode={darkMode} />} />
-          <Route path="/sip" element={<SIPCalculator darkMode={darkMode} />} />
-          <Route path="/portfolio" element={<Portfolio darkMode={darkMode} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        <Footer darkMode={darkMode} />
-      </div>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </Router>
   );
 }

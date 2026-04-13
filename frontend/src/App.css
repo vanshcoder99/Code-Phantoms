@@ -1,4 +1,33 @@
-/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== DESIGN SYSTEM ===== */
+:root {
+  /* Primary — Vibrant Coral-Red */
+  --primary: #FF4757;
+  --primary-light: #FF6B7A;
+  --primary-dark: #E8364A;
+
+  /* Deep Navy & Slate — Premium dark backgrounds */
+  --bg-dark-1: #0B0F1A;     /* Deepest background */
+  --bg-dark-2: #111827;     /* Card backgrounds */
+  --bg-dark-3: #1F2937;     /* Elevated surfaces */
+  --bg-dark-4: #374151;     /* Borders, inputs */
+
+  /* Accent — Electric Cyan */
+  --accent: #06D6A0;
+  --accent-light: #34EABB;
+
+  /* Text */
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+}
+
+/* ===== GLOBAL STYLES ===== */
 * {
   margin: 0;
   padding: 0;
@@ -6,53 +35,69 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-dark-1);
 }
 
-/* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Animations */
+/* ===== TAILWIND CUSTOM UTILITIES VIA CSS ===== */
+/* Since TW4 doesn't have tailwind.config.js, map custom colors in CSS */
+
+.bg-primary { background-color: var(--primary) !important; }
+.bg-primary-dark { background-color: var(--primary-dark) !important; }
+.bg-quaternary { background-color: var(--bg-dark-1) !important; }
+.bg-tertiary { background-color: var(--bg-dark-2) !important; }
+.bg-secondary { background-color: var(--bg-dark-3) !important; }
+.text-primary { color: var(--primary) !important; }
+.text-quaternary { color: var(--bg-dark-1) !important; }
+.border-primary { border-color: var(--primary) !important; }
+.border-secondary { border-color: var(--bg-dark-3) !important; }
+.ring-primary { --tw-ring-color: var(--primary) !important; }
+
+.hover\:bg-primary:hover { background-color: var(--primary) !important; }
+.hover\:bg-primary-dark:hover { background-color: var(--primary-dark) !important; }
+.hover\:bg-secondary:hover { background-color: var(--bg-dark-3) !important; }
+.hover\:bg-quaternary:hover { background-color: var(--bg-dark-1) !important; }
+.hover\:text-primary:hover { color: var(--primary) !important; }
+.hover\:text-primary-dark:hover { color: var(--primary-dark) !important; }
+.focus\:border-primary:focus { border-color: var(--primary) !important; }
+.focus\:ring-primary:focus { --tw-ring-color: var(--primary) !important; }
+
+/* Gradient utilities */
+.from-primary { --tw-gradient-from: var(--primary); }
+.to-primary { --tw-gradient-to: var(--primary); }
+.from-secondary { --tw-gradient-from: var(--bg-dark-3); }
+.to-secondary { --tw-gradient-to: var(--bg-dark-3); }
+
+/* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-/* Button Hover Effects */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ===== BUTTON STYLES ===== */
 button {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 button:hover:not(:disabled) {
@@ -63,12 +108,12 @@ button:active:not(:disabled) {
   transform: translateY(0);
 }
 
-/* Input Styles */
+/* ===== FORM INPUTS ===== */
 input[type='range'] {
   width: 100%;
   height: 8px;
   border-radius: 5px;
-  background: linear-gradient(to right, #10b981, #f59e0b, #ef4444);
+  background: linear-gradient(to right, #06D6A0, #FFD93D, #FF4757);
   outline: none;
   -webkit-appearance: none;
 }
@@ -76,64 +121,60 @@ input[type='range'] {
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: #F7374F;
+  background: var(--primary);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(255, 71, 87, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 input[type='range']::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: #F7374F;
+  background: var(--primary);
   cursor: pointer;
   border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
 }
 
-/* Scrollbar Styling */
+/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--bg-dark-1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #F7374F;
-  border-radius: 5px;
+  background: var(--bg-dark-3);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #D91E2F;
+  background: var(--primary);
 }
 
-/* Dark Mode Scrollbar */
-.dark ::-webkit-scrollbar-track {
-  background: #2C2C2C;
+/* ===== CARD GLASS EFFECT ===== */
+.glass-card {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #F7374F;
-}
-
-/* Responsive Typography */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.75rem;
-  }
-
-  h3 {
-    font-size: 1.25rem;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
 }
 
 /* Loading Animation */
@@ -143,22 +184,19 @@ input[type='range']::-moz-range-thumb {
 
 /* Card Hover Effect */
 .card-hover {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-hover:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Color Palette */
-:root {
-  --primary: #F7374F;
-  --primary-light: #FF6B7A;
-  --primary-dark: #D91E2F;
-  --secondary: #88304E;
-  --secondary-light: #A85070;
-  --secondary-dark: #6B1F3A;
-  --tertiary: #522546;
-  --quaternary: #2C2C2C;
+/* Glow Effects */
+.glow-primary {
+  box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgba(6, 214, 160, 0.3);
 }

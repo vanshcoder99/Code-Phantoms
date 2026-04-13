@@ -8,11 +8,16 @@ from ai.routes import router as ai_router
 from routes.simulation import router as simulation_router
 from routes.portfolio import router as portfolio_router
 from routes.dashboard import router as dashboard_router
+from routes.auth import router as auth_router
+from database import engine, Base
+
+# Create all database tables on startup
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Investing Fear API",
     description="Backend for Investing Fear - Risk Simulation & AI Portfolio Explainer",
-    version="1.0.0"
+    version="2.0.0"
 )
 
 # CORS middleware - allows React frontend to communicate
@@ -24,6 +29,7 @@ app.add_middleware(
 )
 
 # Include all routers
+app.include_router(auth_router)
 app.include_router(ai_router)
 app.include_router(simulation_router)
 app.include_router(portfolio_router)
@@ -34,8 +40,9 @@ app.include_router(dashboard_router)
 def home():
     return {
         "status": "Investing Fear API is running!",
-        "version": "1.0.0",
-        "docs": "/docs"
+        "version": "2.0.0",
+        "docs": "/docs",
+        "features": ["auth", "simulations", "portfolios", "ai-chat", "dashboard"]
     }
 
 @app.get("/health")

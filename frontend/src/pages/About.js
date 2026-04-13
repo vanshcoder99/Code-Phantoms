@@ -3,10 +3,10 @@ import { Heart, Target, Zap, Users, Award, TrendingUp, BarChart3, Lightbulb } fr
 
 export default function About({ darkMode }) {
   const team = [
-    { name: 'Sarah Chen', role: 'Founder & CEO', icon: Target, bio: 'Investment enthusiast with 10+ years experience' },
-    { name: 'Alex Kumar', role: 'Lead Developer', icon: Zap, bio: 'Full-stack developer passionate about fintech' },
-    { name: 'Maya Patel', role: 'AI Specialist', icon: Lightbulb, bio: 'AI researcher focused on financial applications' },
-    { name: 'James Wilson', role: 'Financial Advisor', icon: TrendingUp, bio: 'Certified financial planner and educator' },
+    { name: 'Kashish Sachdeva', role: 'Team Lead & Full-Stack Developer', icon: Target, bio: 'Architect of the platform. Built the complete SaaS infrastructure.' },
+    { name: 'Vansh Nagpal', role: 'AI/ML Engineer', icon: Zap, bio: 'Designed the ML investor profiling model and Groq AI integration.' },
+    { name: 'Deepanshu', role: 'Frontend Developer', icon: Lightbulb, bio: 'Crafted the interactive UI, simulations, and data visualizations.' },
+    { name: 'Aryan Garg', role: 'Backend Developer', icon: TrendingUp, bio: 'Built the FastAPI backend, database design, and authentication system.' },
   ];
 
   const values = [
@@ -151,6 +151,69 @@ export default function About({ darkMode }) {
                     </p>
                   </div>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Tech Stack Section */}
+      <div className={`py-20 px-4 ${darkMode ? 'bg-secondary bg-opacity-30' : 'bg-gray-100'}`}>
+        <div className="max-w-6xl mx-auto">
+          <h2 className={`text-4xl font-bold mb-4 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+            Tech Stack
+          </h2>
+          <p className={`text-center mb-12 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            Built with cutting-edge technologies for performance and scalability
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: 'React 19', category: 'Frontend', color: '#61DAFB' },
+              { name: 'Tailwind CSS', category: 'Styling', color: '#06B6D4' },
+              { name: 'Recharts', category: 'Visualization', color: '#22C55E' },
+              { name: 'React Router', category: 'Navigation', color: '#F44250' },
+              { name: 'FastAPI', category: 'Backend', color: '#009688' },
+              { name: 'SQLAlchemy', category: 'ORM', color: '#D71F00' },
+              { name: 'SQLite', category: 'Database', color: '#003B57' },
+              { name: 'JWT Auth', category: 'Security', color: '#F7374F' },
+              { name: 'Groq (LLaMA)', category: 'AI Engine', color: '#8B5CF6' },
+              { name: 'scikit-learn', category: 'ML Model', color: '#F7931E' },
+              { name: 'NumPy + Pandas', category: 'Data Science', color: '#4DABCF' },
+              { name: 'bcrypt', category: 'Encryption', color: '#EF4444' },
+            ].map((tech, i) => (
+              <div
+                key={i}
+                className={`p-4 rounded-xl text-center transition-all hover:scale-105 hover:-translate-y-1 ${
+                  darkMode ? 'bg-tertiary hover:bg-secondary' : 'bg-white hover:shadow-lg'
+                } shadow-md`}
+              >
+                <div
+                  className="w-3 h-3 rounded-full mx-auto mb-3"
+                  style={{ backgroundColor: tech.color, boxShadow: `0 0 10px ${tech.color}40` }}
+                />
+                <p className={`font-bold text-sm ${darkMode ? 'text-white' : 'text-gray-800'}`}>{tech.name}</p>
+                <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{tech.category}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Architecture highlights */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { title: 'Full-Stack SaaS', desc: 'React frontend + FastAPI backend with JWT authentication and SQLite database', icon: '🏗️' },
+              { title: 'AI-Powered', desc: 'Groq LLaMA 3.1 for portfolio analysis + Random Forest ML model for investor profiling', icon: '🤖' },
+              { title: 'Real-Time Data', desc: 'Monte Carlo simulations, dynamic charts, and personalized dashboards per user', icon: '📊' },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className={`p-6 rounded-xl border-l-4 border-primary ${
+                  darkMode ? 'bg-tertiary' : 'bg-white'
+                } shadow-lg`}
+              >
+                <span className="text-3xl mb-3 block">{item.icon}</span>
+                <h3 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{item.title}</h3>
+                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{item.desc}</p>
               </div>
             ))}
           </div>
