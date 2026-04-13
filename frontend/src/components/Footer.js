@@ -9,7 +9,7 @@ export default function Footer({ darkMode }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* About */}
           <div>
-            <h3 className="text-white font-bold mb-4">About Investing Fear</h3>
+            <h3 className="text-white font-bold mb-4">About InvestSafe</h3>
             <p className="text-sm">
               We help young investors overcome fear through simulation, education, and AI guidance.
             </p>
@@ -45,7 +45,7 @@ export default function Footer({ darkMode }) {
         </div>
 
         <div className="border-t border-gray-700 pt-8 text-center text-sm">
-          <p>Copyright 2024 Investing Fear. All rights reserved. Built for young investors</p>
+          <p>Copyright 2024 InvestSafe. All rights reserved. Built for young investors</p>
         </div>
       </div>
     </footer>

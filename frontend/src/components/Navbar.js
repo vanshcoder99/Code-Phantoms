@@ -36,7 +36,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition">
             <Target className="w-6 h-6 text-primary" />
-            <span className="font-bold text-xl">Investing Fear</span>
+            <span className="font-bold text-xl">InvestSafe</span>
           </Link>
 
           {/* Desktop Menu */}

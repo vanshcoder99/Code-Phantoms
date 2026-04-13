@@ -33,7 +33,7 @@ export default function About({ darkMode }) {
   ];
 
   const milestones = [
-    { year: '2024', event: 'Investing Fear Platform Launched', description: 'Started with a mission to help young investors' },
+    { year: '2024', event: 'InvestSafe Platform Launched', description: 'Started with a mission to help young investors' },
     { year: '2024', event: '1,000 Users Milestone', description: 'Reached 1,000 active users in first month' },
     { year: '2024', event: '10,000 Simulations', description: 'Users completed 10,000 practice simulations' },
     { year: '2024', event: 'AI Integration', description: 'Integrated Groq AI for personalized portfolio analysis' },
@@ -45,7 +45,7 @@ export default function About({ darkMode }) {
       <div className={`${darkMode ? 'bg-gradient-to-br from-secondary to-tertiary' : 'bg-gradient-to-br from-gray-100 to-gray-50'} py-20 px-4`}>
         <div className="max-w-4xl mx-auto text-center">
           <h1 className={`text-5xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
-            About Investing Fear
+            About Investing Safe
           </h1>
           <p className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Empowering young investors to overcome fear and build wealth through education, simulation, and AI guidance
@@ -256,7 +256,7 @@ export default function About({ darkMode }) {
       <div className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
-            Why Choose Investing Fear?
+            Why Choose Investing Safe?
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -326,7 +326,7 @@ export default function About({ darkMode }) {
             Ready to Start Your Investment Journey?
           </h2>
           <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Join thousands of young investors who are overcoming their fear and building wealth with Investing Fear
+            Join thousands of young investors who are overcoming their fear and building wealth with Investing Safe
           </p>
           <button className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-lg font-bold text-lg transition">
             Get Started Today
