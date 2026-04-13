@@ -14,7 +14,7 @@ export default function SimulationHistory({ darkMode }) {
 
   const fetchSimulations = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/ai/simulations`);
+      const response = await axios.get(`${API_BASE}/api/v1/simulations`);
       setSimulations(response.data.simulations || []);
     } catch (err) {
       console.error(err);

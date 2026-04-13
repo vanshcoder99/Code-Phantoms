@@ -15,7 +15,7 @@ export default function Dashboard({ darkMode }) {
 
   const fetchDashboard = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/ai/dashboard`);
+      const response = await axios.get(`${API_BASE}/api/v1/dashboard`);
       setStats(response.data);
     } catch (err) {
       console.error(err);
