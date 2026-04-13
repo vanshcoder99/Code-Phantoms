@@ -30,17 +30,7 @@ age = np.concatenate([
     np.random.normal(55, 5, 100).clip(48, 65),        # Pre-retirement
 ]).astype(int)
 
-monthly_income = np.where(
-    age < 25, np.random.lognormal(9.5, 0.4, N)[:sum(age < 25)],
-    np.where(
-        age < 35, np.random.lognormal(10.2, 0.5, N)[:sum((age >= 25) & (age < 35))],
-        np.where(
-            age < 50, np.random.lognormal(10.8, 0.5, N)[:sum((age >= 35) & (age < 50))],
-            np.random.lognormal(10.5, 0.6, N)[:sum(age >= 50)]
-        )
-    )
-)
-# Rebuild income based on age properly
+# Build income based on age properly
 monthly_income = np.zeros(N)
 for i in range(N):
     if age[i] < 25:

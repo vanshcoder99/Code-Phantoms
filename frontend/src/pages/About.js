@@ -3,8 +3,8 @@ import { Heart, Target, Zap, Users, Award, TrendingUp, BarChart3, Lightbulb } fr
 
 export default function About({ darkMode }) {
   const team = [
-    { name: 'Kashish Sachdeva', role: 'Team Lead & Full-Stack Developer', icon: Target, bio: 'Architect of the platform. Built the complete SaaS infrastructure.' },
-    { name: 'Vansh Nagpal', role: 'AI/ML Engineer', icon: Zap, bio: 'Designed the ML investor profiling model and Groq AI integration.' },
+    { name: 'Vansh Nagpal', role: 'Team Lead & Full-Stack Developer', icon: Target, bio: 'Architect of the platform. Built the complete SaaS infrastructure.' },
+    { name: 'Kashish Sachdeva', role: 'AI/ML Engineer', icon: Zap, bio: 'Designed the ML investor profiling model and Groq AI integration.' },
     { name: 'Deepanshu', role: 'Frontend Developer', icon: Lightbulb, bio: 'Crafted the interactive UI, simulations, and data visualizations.' },
     { name: 'Aryan Garg', role: 'Backend Developer', icon: TrendingUp, bio: 'Built the FastAPI backend, database design, and authentication system.' },
   ];
@@ -133,9 +133,8 @@ export default function About({ darkMode }) {
             {milestones.map((milestone, idx) => (
               <div
                 key={idx}
-                className={`p-6 rounded-lg shadow-lg border-l-4 border-primary ${
-                  darkMode ? 'bg-tertiary' : 'bg-white'
-                }`}
+                className={`p-6 rounded-lg shadow-lg border-l-4 border-primary ${darkMode ? 'bg-tertiary' : 'bg-white'
+                  }`}
               >
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
@@ -184,9 +183,8 @@ export default function About({ darkMode }) {
             ].map((tech, i) => (
               <div
                 key={i}
-                className={`p-4 rounded-xl text-center transition-all hover:scale-105 hover:-translate-y-1 ${
-                  darkMode ? 'bg-tertiary hover:bg-secondary' : 'bg-white hover:shadow-lg'
-                } shadow-md`}
+                className={`p-4 rounded-xl text-center transition-all hover:scale-105 hover:-translate-y-1 ${darkMode ? 'bg-tertiary hover:bg-secondary' : 'bg-white hover:shadow-lg'
+                  } shadow-md`}
               >
                 <div
                   className="w-3 h-3 rounded-full mx-auto mb-3"
@@ -207,9 +205,8 @@ export default function About({ darkMode }) {
             ].map((item, i) => (
               <div
                 key={i}
-                className={`p-6 rounded-xl border-l-4 border-primary ${
-                  darkMode ? 'bg-tertiary' : 'bg-white'
-                } shadow-lg`}
+                className={`p-6 rounded-xl border-l-4 border-primary ${darkMode ? 'bg-tertiary' : 'bg-white'
+                  } shadow-lg`}
               >
                 <span className="text-3xl mb-3 block">{item.icon}</span>
                 <h3 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{item.title}</h3>

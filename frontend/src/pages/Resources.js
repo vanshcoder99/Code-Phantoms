@@ -12,22 +12,26 @@ export default function Resources({ darkMode }) {
         { 
           title: 'Investment Basics', 
           description: 'Learn fundamental concepts of investing including stocks, bonds, and mutual funds',
-          content: 'Investing is the process of putting your money into financial assets with the goal of growing your wealth over time. Start with understanding different asset classes and how they work.'
+          content: 'Investing is the process of putting your money into financial assets with the goal of growing your wealth over time. Start with understanding different asset classes and how they work.',
+          link: 'https://www.investopedia.com/articles/basics/11/3-s-simple-investing.asp'
         },
         { 
           title: 'Risk Management', 
           description: 'Understand how to manage investment risk and protect your portfolio',
-          content: 'Risk management involves identifying potential losses and taking steps to minimize them. Diversification is key to managing risk effectively.'
+          content: 'Risk management involves identifying potential losses and taking steps to minimize them. Diversification is key to managing risk effectively.',
+          link: 'https://www.investopedia.com/terms/r/riskmanagement.asp'
         },
         { 
           title: 'Portfolio Building', 
           description: 'Create a balanced investment portfolio tailored to your goals',
-          content: 'A well-built portfolio balances growth potential with risk management. Consider your age, goals, and risk tolerance when building your portfolio.'
+          content: 'A well-built portfolio balances growth potential with risk management. Consider your age, goals, and risk tolerance when building your portfolio.',
+          link: 'https://www.investopedia.com/terms/p/portfolio.asp'
         },
         {
           title: 'Emergency Fund Basics',
           description: 'Why you need an emergency fund before investing',
-          content: 'An emergency fund should cover 3-6 months of living expenses. Keep it in a liquid, safe account before investing in the market.'
+          content: 'An emergency fund should cover 3-6 months of living expenses. Keep it in a liquid, safe account before investing in the market.',
+          link: 'https://www.nerdwallet.com/article/banking/emergency-fund-why-it-matters'
         },
       ]
     },
@@ -36,24 +40,28 @@ export default function Resources({ darkMode }) {
       icon: Video,
       items: [
         { 
-          title: 'Market Simulation Guide', 
-          description: 'Step-by-step guide to using the simulator effectively',
-          content: 'Learn how to configure different scenarios and interpret the results. Practice with various risk levels and time periods.'
+          title: 'Stock Market for Beginners', 
+          description: 'Step-by-step guide to understanding the stock market',
+          content: 'Learn how the stock market works, how to buy your first shares, and key strategies for beginners.',
+          link: 'https://www.youtube.com/watch?v=ZCFkWDdmXG8'
         },
         { 
-          title: 'AI Portfolio Analysis', 
-          description: 'How to get the most from AI explanations',
-          content: 'Use the AI explainer to understand your portfolio composition. Get personalized insights about your investment strategy.'
+          title: 'How to Build a Portfolio', 
+          description: 'Learn portfolio construction from scratch',
+          content: 'Use the AI explainer to understand your portfolio composition. Get personalized insights about your investment strategy.',
+          link: 'https://www.youtube.com/watch?v=foqswDDlhKI'
         },
         { 
-          title: 'Risk Assessment', 
-          description: 'Understanding your risk tolerance and investment timeline',
-          content: 'Your risk tolerance depends on your age, financial goals, and comfort level. Younger investors can typically take more risk.'
+          title: 'Understanding Mutual Funds', 
+          description: 'Complete guide to mutual funds and SIPs',
+          content: 'Your risk tolerance depends on your age, financial goals, and comfort level. Mutual funds are a great way for beginners to start.',
+          link: 'https://www.youtube.com/watch?v=ngfKkEGQ5Q0'
         },
         {
           title: 'Reading Market Charts',
           description: 'How to interpret investment charts and graphs',
-          content: 'Learn to read candlestick charts, line graphs, and other market visualizations to make informed decisions.'
+          content: 'Learn to read candlestick charts, line graphs, and other market visualizations to make informed decisions.',
+          link: 'https://www.youtube.com/watch?v=eynxyoKgpng'
         },
       ]
     },
@@ -64,22 +72,26 @@ export default function Resources({ darkMode }) {
         { 
           title: 'Why Young Investors Fear Markets', 
           description: 'Understanding investment anxiety and how to overcome it',
-          content: 'Fear of investing is natural, especially for beginners. Understanding market volatility and historical trends can help reduce anxiety.'
+          content: 'Fear of investing is natural, especially for beginners. Understanding market volatility and historical trends can help reduce anxiety.',
+          link: 'https://www.forbes.com/advisor/investing/how-to-start-investing/'
         },
         { 
           title: 'Long-term vs Short-term Investing', 
           description: 'Choosing the right strategy for your goals',
-          content: 'Long-term investing focuses on wealth building over decades. Short-term trading is riskier and requires more active management.'
+          content: 'Long-term investing focuses on wealth building over decades. Short-term trading is riskier and requires more active management.',
+          link: 'https://www.bankrate.com/investing/long-term-investing-vs-short-term-trading/'
         },
         { 
           title: 'Diversification Strategies', 
           description: 'Spreading your investments wisely across different assets',
-          content: 'Diversification reduces risk by spreading investments across different asset classes, sectors, and geographies.'
+          content: 'Diversification reduces risk by spreading investments across different asset classes, sectors, and geographies.',
+          link: 'https://www.investopedia.com/terms/d/diversification.asp'
         },
         {
           title: 'Compound Interest Magic',
           description: 'How compound interest can multiply your wealth',
-          content: 'Compound interest is earning returns on your returns. Starting early and staying invested is key to maximizing compound growth.'
+          content: 'Compound interest is earning returns on your returns. Starting early and staying invested is key to maximizing compound growth.',
+          link: 'https://www.investopedia.com/terms/c/compoundinterest.asp'
         },
       ]
     },
@@ -88,24 +100,28 @@ export default function Resources({ darkMode }) {
       icon: Users,
       items: [
         { 
-          title: 'Discussion Forum', 
+          title: 'Reddit — Personal Finance', 
           description: 'Connect with other young investors and share experiences',
-          content: 'Join our community forum to ask questions, share insights, and learn from other investors at all levels.'
+          content: 'Join the Reddit personal finance community to ask questions, share insights, and learn from other investors at all levels.',
+          link: 'https://www.reddit.com/r/personalfinance/'
         },
         { 
-          title: 'Success Stories', 
-          description: 'Learn from others who overcame fear and started investing',
-          content: 'Read inspiring stories from young investors who started with fear and built successful investment portfolios.'
+          title: 'Bogleheads Forum', 
+          description: 'Learn from others who follow time-tested investing strategies',
+          content: 'Read inspiring discussions from investors who follow the Bogleheads philosophy of simple, low-cost investing.',
+          link: 'https://www.bogleheads.org/forum/index.php'
         },
         { 
-          title: 'Expert Q&A', 
+          title: 'Moneycontrol Q&A', 
           description: 'Ask questions to investment experts and financial advisors',
-          content: 'Get answers to your investment questions from certified financial advisors and investment professionals.'
+          content: 'Get answers to your investment questions from certified financial advisors and investment professionals.',
+          link: 'https://www.moneycontrol.com/forum/'
         },
         {
-          title: 'Weekly Webinars',
-          description: 'Join live sessions on investing topics',
-          content: 'Attend weekly webinars covering various investment topics, market analysis, and portfolio management strategies.'
+          title: 'Zerodha Varsity',
+          description: 'Free stock market courses and webinars',
+          content: 'Access comprehensive free courses on stock markets, trading, and personal finance by Zerodha Varsity.',
+          link: 'https://zerodha.com/varsity/'
         },
       ]
     },
@@ -163,7 +179,9 @@ export default function Resources({ darkMode }) {
                           <h3 className={`font-semibold ${darkMode ? 'text-white' : 'text-quaternary'}`}>
                             {item.title}
                           </h3>
-                          <ExternalLink className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
+                          <a href={item.link} target="_blank" rel="noopener noreferrer" title={`Open ${item.title}`} className="hover:opacity-70 transition">
+                            <ExternalLink className="w-5 h-5 text-primary flex-shrink-0 mt-1 cursor-pointer" />
+                          </a>
                         </div>
                         <p className={`text-sm mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                           {item.description}

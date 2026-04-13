@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, GitBranch, Linkedin } from 'lucide-react';
 
 export default function Footer({ darkMode }) {
@@ -18,9 +19,11 @@ export default function Footer({ darkMode }) {
           <div>
             <h3 className="text-white font-bold mb-4">Quick Links</h3>
             <ul className="text-sm space-y-2">
-              <li><a href="#simulator" className="hover:text-white transition">Simulator</a></li>
-              <li><a href="#explainer" className="hover:text-white transition">AI Explainer</a></li>
-              <li><a href="#learning" className="hover:text-white transition">Learning</a></li>
+              <li><Link to="/" className="hover:text-white transition">Home</Link></li>
+              <li><Link to="/resources" className="hover:text-white transition">Resources</Link></li>
+              <li><Link to="/about" className="hover:text-white transition">About Us</Link></li>
+              <li><Link to="/sip" className="hover:text-white transition">SIP Calculator</Link></li>
+              <li><Link to="/fear-quiz" className="hover:text-white transition">Fear Quiz</Link></li>
             </ul>
           </div>
 
@@ -28,13 +31,13 @@ export default function Footer({ darkMode }) {
           <div>
             <h3 className="text-white font-bold mb-4">Get in Touch</h3>
             <div className="flex gap-4">
-              <a href="mailto:contact@investingfear.com" className="hover:text-white transition">
+              <a href="mailto:contact@investingfear.com" className="hover:text-white transition" title="Email Us">
                 <Mail className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-white transition">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition" title="GitHub">
                 <GitBranch className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-white transition">
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition" title="LinkedIn">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
