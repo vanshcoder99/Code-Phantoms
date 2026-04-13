@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { Play, TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
 import axios from 'axios';
 
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = 'https://investsafe-backend.onrender.com';
 
 export default function RiskSimulator({ darkMode }) {
   const [initialAmount, setInitialAmount] = useState(10000);

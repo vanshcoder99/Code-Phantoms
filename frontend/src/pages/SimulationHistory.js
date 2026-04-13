@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Trash2, Eye, Download, Calendar, TrendingUp } from 'lucide-react';
 import axios from 'axios';
 
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = 'https://investsafe-backend.onrender.com';
 
 export default function SimulationHistory({ darkMode }) {
   const [simulations, setSimulations] = useState([]);

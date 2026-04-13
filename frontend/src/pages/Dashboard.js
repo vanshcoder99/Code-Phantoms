@@ -3,7 +3,7 @@ import { BarChart3, TrendingUp, Activity, Award, DollarSign } from 'lucide-react
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import axios from 'axios';
 
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = 'https://investsafe-backend.onrender.com';
 
 export default function Dashboard({ darkMode }) {
   const [stats, setStats] = useState(null);
@@ -363,7 +363,7 @@ export default function Dashboard({ darkMode }) {
           <button
             onClick={async () => {
               try {
-                const res = await fetch('http://127.0.0.1:8000/ai/predict-profile', {
+                const res = await fetch(`${API_BASE}/ai/predict-profile`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
