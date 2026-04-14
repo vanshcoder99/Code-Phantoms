@@ -1,14 +1,16 @@
 from ai.risk_model import predict_investor_profile
 from ai.data_analysis import analyze_stock
-
-from fastapi import APIRouter
-from pydantic import BaseModel
 from ai.llm_service import (
     explain_portfolio,
     react_to_loss,
     answer_question,
-    reset_memory
+    reset_memory,
+    deep_risk_analysis
 )
+
+from fastapi import APIRouter
+from pydantic import BaseModel, Field
+from typing import Optional
 
 router = APIRouter()
 
@@ -72,3 +74,25 @@ def predict_profile(req: ProfileRequest):
 @router.post("/ai/analyze-stock")
 def analyze(req: StockAnalysisRequest):
     return analyze_stock(req.stock)
+
+
+class DeepRiskAnalysisRequest(BaseModel):
+    initial_amount: float
+    time_period: int
+    risk_level: str
+    best_case: float
+    worst_case: float
+    average_case: float
+    age: Optional[int] = None
+    income: Optional[float] = None
+    experience: Optional[str] = None
+    risk_score: Optional[int] = None
+    savings_rate: Optional[float] = None
+    goals: Optional[str] = None
+
+
+@router.post("/ai/deep-risk-analysis")
+def deep_analysis(req: DeepRiskAnalysisRequest):
+    """Advanced AI-powered deep financial risk analysis using Groq LLM"""
+    result = deep_risk_analysis(req.dict())
+    return result

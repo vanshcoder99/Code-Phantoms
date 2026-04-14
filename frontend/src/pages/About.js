@@ -175,7 +175,7 @@ export default function About({ darkMode }) {
               { name: 'FastAPI', category: 'Backend', color: '#009688' },
               { name: 'SQLAlchemy', category: 'ORM', color: '#D71F00' },
               { name: 'SQLite', category: 'Database', color: '#003B57' },
-              { name: 'JWT Auth', category: 'Security', color: '#F7374F' },
+              { name: 'JWT Auth', category: 'Security', color: '#2563EB' },
               { name: 'Groq (LLaMA)', category: 'AI Engine', color: '#8B5CF6' },
               { name: 'scikit-learn', category: 'ML Model', color: '#F7931E' },
               { name: 'NumPy + Pandas', category: 'Data Science', color: '#4DABCF' },

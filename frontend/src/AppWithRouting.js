@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
@@ -20,6 +20,17 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import FearQuiz from './pages/FearQuiz';
 import './App.css';
+
+// ScrollToTop component to reset scroll position on navigation
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 // Protected Route - redirects to login if not authenticated
 function ProtectedRoute({ children, darkMode }) {
@@ -119,6 +130,7 @@ function AppContent() {
 function AppWithRouting() {
   return (
     <Router>
+      <ScrollToTop />
       <AuthProvider>
         <AppContent />
       </AuthProvider>

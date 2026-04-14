@@ -4,27 +4,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== DESIGN SYSTEM ===== */
+/* =====================================================
+   DESIGN SYSTEM — Premium Fintech Dashboard
+   
+   Palette Philosophy:
+   - Primary (Deep Blue #2563EB): Trust, stability, reliability
+   - Growth Green (#059669): Financial growth, safety, success — muted, not neon
+   - AI Accent (Soft Violet #7C3AED): Intelligence, innovation, ML features
+   - Dark Navy Backgrounds: Professional, premium, Bloomberg-inspired
+   - Warm Neutrals: Comfortable, readable, non-fatiguing
+   ===================================================== */
+
 :root {
-  /* Primary — Deep Teal */
-  --primary: #285A48;
-  --primary-light: #408A71;
-  --primary-dark: #1a3a2e;
+  /* ── Primary — Deep Blue (Trust & Stability) ── */
+  --primary: #2563EB;
+  --primary-light: #3B82F6;
+  --primary-dark: #1D4ED8;
 
-  /* Deep Navy & Slate — Premium dark backgrounds */
-  --bg-dark-1: #091413;     /* Deepest background */
-  --bg-dark-2: #0f1a17;     /* Card backgrounds */
-  --bg-dark-3: #1a2622;     /* Elevated surfaces */
-  --bg-dark-4: #285A48;     /* Borders, inputs */
+  /* ── Backgrounds — Dark Navy Charcoal ── */
+  --bg-dark-1: #0C1222;     /* Deepest — page background */
+  --bg-dark-2: #131B2E;     /* Cards — elevated surfaces */
+  --bg-dark-3: #1C2640;     /* Interactive — inputs, hover states */
+  --bg-dark-4: #2A3655;     /* Borders, dividers */
 
-  /* Accent — Soft Mint */
-  --accent: #B0E4CC;
-  --accent-light: #c8f0dd;
+  /* ── Growth Green (Financial Safety) ── */
+  --growth: #059669;
+  --growth-light: #10B981;
 
-  /* Text */
-  --text-primary: #F9FAFB;
-  --text-secondary: #9CA3AF;
-  --text-muted: #6B7280;
+  /* ── AI Accent — Soft Violet ── */
+  --accent: #7C3AED;
+  --accent-light: #8B5CF6;
+
+  /* ── Text ── */
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+
+  /* ── Semantic ── */
+  --success: #059669;
+  --warning: #D97706;
+  --danger: #DC2626;
 }
 
 /* ===== GLOBAL STYLES ===== */
@@ -45,8 +64,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ===== TAILWIND CUSTOM UTILITIES VIA CSS ===== */
-/* Since TW4 doesn't have tailwind.config.js, map custom colors in CSS */
+/* ===== COLOR UTILITY CLASSES ===== */
 
 .bg-primary { background-color: var(--primary) !important; }
 .bg-primary-dark { background-color: var(--primary-dark) !important; }
@@ -74,9 +92,22 @@ html {
 .from-secondary { --tw-gradient-from: var(--bg-dark-3); }
 .to-secondary { --tw-gradient-to: var(--bg-dark-3); }
 
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -93,6 +124,43 @@ html {
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.15); }
+  50% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.3); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes revealSection {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-revealSection {
+  animation: revealSection 0.6s ease-out forwards;
+}
+
+.animate-glowPulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.animate-floatSlow {
+  animation: floatSlow 4s ease-in-out infinite;
 }
 
 /* ===== BUTTON STYLES ===== */
@@ -113,7 +181,7 @@ input[type='range'] {
   width: 100%;
   height: 8px;
   border-radius: 5px;
-  background: linear-gradient(to right, #B0E4CC, #408A71, #285A48);
+  background: linear-gradient(to right, #93C5FD, #3B82F6, #1D4ED8);
   outline: none;
   -webkit-appearance: none;
 }
@@ -126,13 +194,13 @@ input[type='range']::-webkit-slider-thumb {
   border-radius: 50%;
   background: var(--primary);
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(40, 90, 72, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s;
 }
 
 input[type='range']::-webkit-slider-thumb:hover {
   transform: scale(1.2);
-  box-shadow: 0 0 15px rgba(40, 90, 72, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 input[type='range']::-moz-range-thumb {
@@ -142,7 +210,7 @@ input[type='range']::-moz-range-thumb {
   background: var(--primary);
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 10px rgba(40, 90, 72, 0.5);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
 }
 
 /* ===== SCROLLBAR ===== */
@@ -165,9 +233,17 @@ input[type='range']::-moz-range-thumb {
 
 /* ===== CARD GLASS EFFECT ===== */
 .glass-card {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(19, 27, 46, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(37, 99, 235, 0.08);
+}
+
+.glass-card-accent {
+  background: rgba(37, 99, 235, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(37, 99, 235, 0.12);
 }
 
 /* ===== RESPONSIVE ===== */
@@ -194,9 +270,45 @@ input[type='range']::-moz-range-thumb {
 
 /* Glow Effects */
 .glow-primary {
-  box-shadow: 0 0 20px rgba(40, 90, 72, 0.3);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.25);
 }
 
 .glow-accent {
-  box-shadow: 0 0 20px rgba(176, 228, 204, 0.3);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
 }
+
+/* Confirmation Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: var(--bg-dark-2);
+  border: 1px solid rgba(37, 99, 235, 0.15);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  animation: revealSection 0.3s ease-out;
+}
+
+/* AI Analysis Card Sections — staggered reveal */
+.ai-section-reveal {
+  animation: revealSection 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.ai-section-reveal:nth-child(1) { animation-delay: 0.1s; }
+.ai-section-reveal:nth-child(2) { animation-delay: 0.25s; }
+.ai-section-reveal:nth-child(3) { animation-delay: 0.4s; }
+.ai-section-reveal:nth-child(4) { animation-delay: 0.55s; }
+.ai-section-reveal:nth-child(5) { animation-delay: 0.7s; }
+.ai-section-reveal:nth-child(6) { animation-delay: 0.85s; }

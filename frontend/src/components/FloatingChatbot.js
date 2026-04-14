@@ -80,20 +80,21 @@ export default function FloatingChatbot({ darkMode }) {
       {/* Chat Window */}
       {isOpen && (
         <div
-          className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden shadow-2xl"
+          className="fixed bottom-20 md:bottom-24 right-4 md:right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
           style={{
+            maxHeight: 'calc(100svh - 100px)',
             animation: 'chatSlideUp 0.3s ease-out',
             background: darkMode
               ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
               : 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
-            border: `1px solid ${darkMode ? 'rgba(247,55,79,0.3)' : 'rgba(0,0,0,0.1)'}`,
+            border: `1px solid ${darkMode ? 'rgba(37,99,235,0.3)' : 'rgba(0,0,0,0.1)'}`,
           }}
         >
           {/* Header */}
           <div
             className="px-5 py-4 flex items-center justify-between"
             style={{
-              background: 'linear-gradient(135deg, #F7374F 0%, #88304E 100%)',
+              background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
             }}
           >
             <div className="flex items-center gap-3">
@@ -118,7 +119,7 @@ export default function FloatingChatbot({ darkMode }) {
 
           {/* Messages */}
           <div
-            className="h-[350px] overflow-y-auto px-4 py-4 space-y-4"
+            className="flex-1 min-h-[250px] md:h-[350px] overflow-y-auto px-4 py-4 space-y-4"
             style={{ scrollbarWidth: 'thin' }}
           >
             {messages.map((msg, idx) => (
@@ -232,7 +233,7 @@ export default function FloatingChatbot({ darkMode }) {
         style={{
           boxShadow: isOpen
             ? '0 4px 20px rgba(0,0,0,0.3)'
-            : '0 4px 30px rgba(247,55,79,0.5)',
+            : '0 4px 30px rgba(37,99,235,0.4)',
           animation: !isOpen && pulseCount < 3 ? 'chatPulse 2s ease-in-out infinite' : 'none',
         }}
       >
@@ -258,8 +259,8 @@ export default function FloatingChatbot({ darkMode }) {
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes chatPulse {
-          0%, 100% { transform: scale(1); box-shadow: 0 4px 30px rgba(247,55,79,0.5); }
-          50% { transform: scale(1.08); box-shadow: 0 4px 40px rgba(247,55,79,0.7); }
+          0%, 100% { transform: scale(1); box-shadow: 0 4px 30px rgba(37,99,235,0.4); }
+          50% { transform: scale(1.08); box-shadow: 0 4px 40px rgba(37,99,235,0.6); }
         }
       `}</style>
     </>

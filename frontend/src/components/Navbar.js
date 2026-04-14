@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Moon, Sun, BarChart3, BookOpen, User, History, Info, LogIn, LogOut, UserPlus, Brain } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 
@@ -7,6 +7,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -43,13 +44,18 @@ export default function Navbar({ darkMode, setDarkMode }) {
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => {
               const Icon = link.icon;
+              const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="flex items-center gap-1 hover:text-primary transition text-sm"
+                  className={`flex items-center gap-1.5 transition text-sm py-1 border-b-2 ${
+                    isActive 
+                      ? 'text-primary border-primary font-semibold' 
+                      : `border-transparent hover:text-primary ${darkMode ? 'text-gray-300' : 'text-gray-600'}`
+                  }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-primary' : ''}`} />
                   <span>{link.label}</span>
                 </Link>
               );
@@ -129,17 +135,20 @@ export default function Navbar({ darkMode, setDarkMode }) {
           <div className={`md:hidden pb-4 space-y-1 ${darkMode ? 'bg-quaternary' : 'bg-white'}`}>
             {navLinks.map((link) => {
               const Icon = link.icon;
+              const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center gap-2 px-4 py-3 rounded-lg transition ${
-                    darkMode ? 'hover:bg-tertiary' : 'hover:bg-gray-100'
+                    isActive 
+                      ? (darkMode ? 'bg-primary bg-opacity-20 text-primary border-l-4 border-primary' : 'bg-primary bg-opacity-10 text-primary border-l-4 border-primary')
+                      : (darkMode ? 'hover:bg-tertiary text-gray-300' : 'hover:bg-gray-100 text-gray-700')
                   }`}
                 >
-                  <Icon className="w-4 h-4 text-primary" />
-                  <span>{link.label}</span>
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-primary' : 'text-gray-400'}`} />
+                  <span className={isActive ? 'font-semibold' : ''}>{link.label}</span>
                 </Link>
               );
             })}
