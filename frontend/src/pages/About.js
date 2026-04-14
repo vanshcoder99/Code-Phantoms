@@ -1,9 +1,9 @@
 import React from 'react';
-import { Heart, Target, Zap, Users, Award, TrendingUp, BarChart3, Lightbulb } from 'lucide-react';
+import { Heart, Code, Zap, Users, Award, TrendingUp, BarChart3, Lightbulb } from 'lucide-react';
 
 export default function About({ darkMode }) {
   const team = [
-    { name: 'Vansh Nagpal', role: 'Team Lead & Full-Stack Developer', icon: Target, bio: 'Architect of the platform. Built the complete SaaS infrastructure.' },
+    { name: 'Vansh Nagpal', role: 'Team Lead & Full-Stack Developer', icon: Code, bio: 'Architect of the platform. Built the complete SaaS infrastructure.' },
     { name: 'Kashish Sachdeva', role: 'AI/ML Engineer', icon: Zap, bio: 'Designed the ML investor profiling model and Groq AI integration.' },
     { name: 'Deepanshu', role: 'Frontend Developer', icon: Lightbulb, bio: 'Crafted the interactive UI, simulations, and data visualizations.' },
     { name: 'Aryan Garg', role: 'Backend Developer', icon: TrendingUp, bio: 'Built the FastAPI backend, database design, and authentication system.' },
@@ -16,7 +16,7 @@ export default function About({ darkMode }) {
       description: 'We understand the fear and anxiety around investing. Our platform is built with compassion for beginners.'
     },
     {
-      icon: Target,
+      icon: Lightbulb,
       title: 'Clarity',
       description: 'We make complex financial concepts simple and understandable for everyone, regardless of background.'
     },

@@ -45,7 +45,7 @@ export default function Footer({ darkMode }) {
         </div>
 
         <div className="border-t border-gray-700 pt-8 text-center text-sm">
-          <p>Copyright 2024 InvestSafe. All rights reserved. Built for young investors</p>
+          <p>Copyright 2026 InvestSafe. All rights reserved. Built for young investors</p>
         </div>
       </div>
     </footer>

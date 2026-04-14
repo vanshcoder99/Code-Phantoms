@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Brain, TrendingDown, Shield, Zap, Target, CheckCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Brain, TrendingDown, Shield, Zap, CheckCircle } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import api from '../api';
 
@@ -199,7 +199,7 @@ export default function FearQuiz({ darkMode }) {
             {/* Recommendation */}
             <div className={`p-5 rounded-2xl mb-8 ${darkMode ? 'bg-secondary' : 'bg-gray-50'} border-l-4`} style={{borderColor: result.color}}>
               <div className="flex items-start gap-3">
-                <Target className="w-5 h-5 flex-shrink-0 mt-0.5" style={{color: result.color}} />
+                <img src="/favicon.png" alt="Recommendation" className="w-5 h-5 flex-shrink-0 mt-0.5" />
                 <div className="text-left">
                   <p className={`font-semibold text-sm mb-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
                     Recommended Next Step

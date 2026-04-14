@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserPlus, Mail, Lock, User, Eye, EyeOff, Target, ArrowRight, Check } from 'lucide-react';
+import { UserPlus, Mail, Lock, User, Eye, EyeOff, ArrowRight, Check } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 
 export default function Signup({ darkMode }) {
@@ -52,7 +52,7 @@ export default function Signup({ darkMode }) {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <Target className="w-8 h-8 text-white" />
+            <img src="/favicon.png" alt="InvestSafe" className="w-8 h-8" />
           </div>
           <h1 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             Create Account

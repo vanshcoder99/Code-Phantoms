@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Moon, Sun, Target, BarChart3, BookOpen, User, History, Info, LogIn, LogOut, UserPlus, Brain } from 'lucide-react';
+import { Menu, X, Moon, Sun, BarChart3, BookOpen, User, History, Info, LogIn, LogOut, UserPlus, Brain } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 
 export default function Navbar({ darkMode, setDarkMode }) {
@@ -15,7 +15,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
   };
 
   const publicLinks = [
-    { path: '/', label: 'Home', icon: Target },
+    { path: '/', label: 'Home', icon: Brain },
     { path: '/fear-quiz', label: 'Fear Quiz', icon: Brain },
     { path: '/resources', label: 'Resources', icon: BookOpen },
     { path: '/about', label: 'About', icon: Info },
@@ -35,7 +35,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition">
-            <Target className="w-6 h-6 text-primary" />
+            <img src="/favicon.png" alt="InvestSafe" className="w-6 h-6" />
             <span className="font-bold text-xl">InvestSafe</span>
           </Link>
 
