@@ -33,10 +33,10 @@ export default function About({ darkMode }) {
   ];
 
   const milestones = [
-    { year: '2024', event: 'InvestSafe Platform Launched', description: 'Started with a mission to help young investors' },
-    { year: '2024', event: '1,000 Users Milestone', description: 'Reached 1,000 active users in first month' },
-    { year: '2024', event: '10,000 Simulations', description: 'Users completed 10,000 practice simulations' },
-    { year: '2024', event: 'AI Integration', description: 'Integrated Groq AI for personalized portfolio analysis' },
+    { year: '2026', event: 'InvestSafe Hackathon Project', description: 'Presented at Code-Phantoms Hackathon 2026' },
+    { year: '2026', event: 'Full-Stack Implementation', description: 'Built complete SaaS platform with React, FastAPI, and MongoDB' },
+    { year: '2026', event: 'AI Integration Complete', description: 'Integrated Groq AI for personalized portfolio analysis' },
+    { year: '2026', event: 'Risk Simulation Engine', description: 'Developed Monte Carlo simulations for investment scenarios' },
   ];
 
   return (
@@ -45,10 +45,10 @@ export default function About({ darkMode }) {
       <div className={`${darkMode ? 'bg-gradient-to-br from-secondary to-tertiary' : 'bg-gradient-to-br from-gray-100 to-gray-50'} py-20 px-4`}>
         <div className="max-w-4xl mx-auto text-center">
           <h1 className={`text-5xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
-            About Investing Safe
+            About InvestSafe
           </h1>
           <p className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Empowering young investors to overcome fear and build wealth through education, simulation, and AI guidance
+            A Code-Phantoms Hackathon 2026 Project — Empowering young investors to overcome fear and build wealth through education, simulation, and AI guidance
           </p>
         </div>
       </div>
@@ -60,7 +60,7 @@ export default function About({ darkMode }) {
             Our Mission
           </h2>
           <p className={`text-lg text-center mb-12 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            We believe that fear of investing shouldn't hold young people back from building wealth. Our mission is to provide accessible, interactive tools that help users understand investment risk, practice with virtual money, and gain the confidence to invest in their future. We're committed to democratizing financial education and making investing accessible to everyone.
+            Built during the Code-Phantoms Hackathon 2026, InvestSafe is a full-stack SaaS platform designed to help young investors overcome their fear of investing. We provide accessible, interactive tools that help users understand investment risk, practice with virtual money, and gain the confidence to invest in their future. Our mission is to democratize financial education and make investing accessible to everyone.
           </p>
 
           {/* Values Grid */}
@@ -323,13 +323,13 @@ export default function About({ darkMode }) {
       <div className={`py-20 px-4 ${darkMode ? 'bg-gradient-to-r from-secondary to-tertiary' : 'bg-gradient-to-r from-gray-100 to-gray-50'}`}>
         <div className="max-w-4xl mx-auto text-center">
           <h2 className={`text-4xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
-            Ready to Start Your Investment Journey?
+            Code-Phantoms Hackathon 2026
           </h2>
           <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Join thousands of young investors who are overcoming their fear and building wealth with Investing Safe
+            InvestSafe was built as a hackathon project to demonstrate how technology can democratize financial education and help young investors overcome their fears
           </p>
           <button className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-lg font-bold text-lg transition">
-            Get Started Today
+            Explore the Platform
           </button>
         </div>
       </div>
