@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,20 +6,20 @@
 
 /* ===== DESIGN SYSTEM ===== */
 :root {
-  /* Primary — Vibrant Coral-Red */
-  --primary: #FF4757;
-  --primary-light: #FF6B7A;
-  --primary-dark: #E8364A;
+  /* Primary — Deep Teal */
+  --primary: #285A48;
+  --primary-light: #408A71;
+  --primary-dark: #1a3a2e;
 
   /* Deep Navy & Slate — Premium dark backgrounds */
-  --bg-dark-1: #0B0F1A;     /* Deepest background */
-  --bg-dark-2: #111827;     /* Card backgrounds */
-  --bg-dark-3: #1F2937;     /* Elevated surfaces */
-  --bg-dark-4: #374151;     /* Borders, inputs */
+  --bg-dark-1: #091413;     /* Deepest background */
+  --bg-dark-2: #0f1a17;     /* Card backgrounds */
+  --bg-dark-3: #1a2622;     /* Elevated surfaces */
+  --bg-dark-4: #285A48;     /* Borders, inputs */
 
-  /* Accent — Electric Cyan */
-  --accent: #06D6A0;
-  --accent-light: #34EABB;
+  /* Accent — Soft Mint */
+  --accent: #B0E4CC;
+  --accent-light: #c8f0dd;
 
   /* Text */
   --text-primary: #F9FAFB;
@@ -35,7 +35,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg-dark-1);
@@ -113,7 +113,7 @@ input[type='range'] {
   width: 100%;
   height: 8px;
   border-radius: 5px;
-  background: linear-gradient(to right, #06D6A0, #FFD93D, #FF4757);
+  background: linear-gradient(to right, #B0E4CC, #408A71, #285A48);
   outline: none;
   -webkit-appearance: none;
 }
@@ -126,13 +126,13 @@ input[type='range']::-webkit-slider-thumb {
   border-radius: 50%;
   background: var(--primary);
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(40, 90, 72, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s;
 }
 
 input[type='range']::-webkit-slider-thumb:hover {
   transform: scale(1.2);
-  box-shadow: 0 0 15px rgba(255, 71, 87, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 15px rgba(40, 90, 72, 0.7), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 input[type='range']::-moz-range-thumb {
@@ -142,7 +142,7 @@ input[type='range']::-moz-range-thumb {
   background: var(--primary);
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+  box-shadow: 0 0 10px rgba(40, 90, 72, 0.5);
 }
 
 /* ===== SCROLLBAR ===== */
@@ -194,9 +194,9 @@ input[type='range']::-moz-range-thumb {
 
 /* Glow Effects */
 .glow-primary {
-  box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+  box-shadow: 0 0 20px rgba(40, 90, 72, 0.3);
 }
 
 .glow-accent {
-  box-shadow: 0 0 20px rgba(6, 214, 160, 0.3);
+  box-shadow: 0 0 20px rgba(176, 228, 204, 0.3);
 }

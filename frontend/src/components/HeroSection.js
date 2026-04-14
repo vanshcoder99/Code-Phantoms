@@ -67,7 +67,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
       className="relative overflow-hidden py-24 px-4 text-center"
       style={{
         background: darkMode
-          ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%)'
+          ? 'linear-gradient(135deg, #091413 0%, #0f1a17 30%, #1a2622 60%, #285A48 100%)'
           : 'linear-gradient(135deg, #f8f9fa 0%, #e8eaf6 50%, #f3e5f5 100%)',
       }}
     >
@@ -77,7 +77,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           className="absolute rounded-full opacity-20 blur-3xl"
           style={{
             width: '500px', height: '500px',
-            background: 'radial-gradient(circle, #F7374F, transparent)',
+            background: 'radial-gradient(circle, #285A48, transparent)',
             top: '-100px', right: '-100px',
             animation: 'floatOrb1 8s ease-in-out infinite',
           }}
@@ -86,7 +86,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           className="absolute rounded-full opacity-15 blur-3xl"
           style={{
             width: '400px', height: '400px',
-            background: 'radial-gradient(circle, #88304E, transparent)',
+            background: 'radial-gradient(circle, #408A71, transparent)',
             bottom: '-50px', left: '-50px',
             animation: 'floatOrb2 10s ease-in-out infinite',
           }}
@@ -95,7 +95,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           className="absolute rounded-full opacity-10 blur-2xl"
           style={{
             width: '300px', height: '300px',
-            background: 'radial-gradient(circle, #522546, transparent)',
+            background: 'radial-gradient(circle, #B0E4CC, transparent)',
             top: '30%', left: '50%',
             animation: 'floatOrb3 12s ease-in-out infinite',
           }}
@@ -121,8 +121,8 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
         <div
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-sm"
           style={{
-            background: darkMode ? 'rgba(247,55,79,0.15)' : 'rgba(247,55,79,0.1)',
-            border: '1px solid rgba(247,55,79,0.3)',
+            background: darkMode ? 'rgba(40, 90, 72, 0.15)' : 'rgba(40, 90, 72, 0.1)',
+            border: '1px solid rgba(40, 90, 72, 0.3)',
             animation: 'fadeInDown 0.6s ease-out',
           }}
         >
@@ -171,7 +171,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           <button
             onClick={onStartSimulation}
             className="group bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-3 hover:scale-105"
-            style={{ boxShadow: '0 8px 30px rgba(247,55,79,0.4)' }}
+            style={{ boxShadow: '0 8px 30px rgba(40, 90, 72, 0.4)' }}
           >
             Start Simulation
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
