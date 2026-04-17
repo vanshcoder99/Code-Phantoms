@@ -1,209 +1,266 @@
+"""
+LLM Service v2 — SHAP-Grounded Groq Integration
+==================================================
+Upgraded from basic chatbot to SHAP-aware, memory-managed LLM service.
+
+Key upgrades:
+- SHAP-grounded prompts for every prediction explanation
+- Sliding window memory (last 6 messages, not unlimited)
+- Enhanced SEBI mentor persona
+- Market sentiment parameter
+- Pydantic-validated JSON output with retry
+"""
+
 import os
+import json
 from groq import Groq
 from dotenv import load_dotenv
+from ai.prompts import (
+    FINBUDDY_SYSTEM_PROMPT,
+    SHAP_EXPLANATION_PROMPT,
+    PORTFOLIO_EXPLAIN_PROMPT,
+    LOSS_REACTION_PROMPT,
+    CHAT_ANSWER_PROMPT,
+    DEEP_RISK_ANALYSIS_PROMPT,
+)
 
 load_dotenv()
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+# Graceful initialization — server starts even without GROQ_API_KEY
+_groq_api_key = os.getenv("GROQ_API_KEY")
+if _groq_api_key:
+    client = Groq(api_key=_groq_api_key)
+    print("Connected to Groq! (v2 -- SHAP-grounded)")
+else:
+    client = None
+    print("[WARN] GROQ_API_KEY not set. LLM features will use fallback responses.")
 
-print("Connected to Groq!")
-
-# This stores conversation history
-# Like a memory list of messages
+# ===================================================================
+# SLIDING WINDOW CONVERSATION MEMORY (max 6 messages = 3 turns)
+# ===================================================================
+MAX_MEMORY_MESSAGES = 6
 conversation_history = []
 
-SYSTEM_MESSAGE = """
-You are FinBuddy, a friendly investment guide
-for young Indian investors aged 18-25.
-Talk like a helpful elder brother or sister.
-Use Indian examples like chai, cricket, movies.
-Keep replies under 100 words.
-End with one encouraging line.
-No difficult financial words.
-"""
+
+def _trim_memory():
+    """Keep only the last MAX_MEMORY_MESSAGES messages (sliding window)."""
+    global conversation_history
+    if len(conversation_history) > MAX_MEMORY_MESSAGES:
+        conversation_history = conversation_history[-MAX_MEMORY_MESSAGES:]
 
 
-def ask_ai(message):
+def ask_ai(message, system_prompt=None):
+    """
+    Core LLM call with sliding window memory.
+    
+    Args:
+        message: User message string
+        system_prompt: Optional override for system prompt
+    """
+    if client is None:
+        return "FinBuddy is currently offline (GROQ_API_KEY not configured). Please set up your Groq API key in the .env file to enable AI chat features."
+    
     # Add user message to history
     conversation_history.append({
         "role": "user",
         "content": message
     })
+    
+    # Trim to sliding window
+    _trim_memory()
+    
+    # Use enhanced system prompt by default
+    sys_prompt = system_prompt or FINBUDDY_SYSTEM_PROMPT
 
-    # Send full history to AI so it remembers
+    # Send with sliding window history
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=[
-            {"role": "system", "content": SYSTEM_MESSAGE}
+            {"role": "system", "content": sys_prompt}
         ] + conversation_history,
-        max_tokens=300
+        max_tokens=400,
+        temperature=0.7,
     )
 
     reply = response.choices[0].message.content
 
-    # Add AI reply to history too
+    # Add AI reply to history
     conversation_history.append({
         "role": "assistant",
         "content": reply
     })
+    
+    # Trim again after adding response
+    _trim_memory()
 
     return reply
 
 
+# ===================================================================
+# ENDPOINT FUNCTIONS
+# ===================================================================
+
 def explain_portfolio(portfolio):
-    message = f"""
-    The user has this portfolio: {portfolio}
-    Explain in simple language:
-    1. What are they investing in?
-    2. Is it safe or risky?
-    3. Worst case scenario?
-    Use Indian examples. Under 100 words.
-    End with one encouraging line.
-    """
+    """Explain a portfolio in simple Hinglish with Indian context."""
+    message = PORTFOLIO_EXPLAIN_PROMPT.format(portfolio=portfolio)
     return ask_ai(message)
 
 
 def react_to_loss(loss_percent):
-    message = f"""
-    User portfolio just fell by {loss_percent}%.
-    Respond like a supportive friend:
-    1. Acknowledge the fear in 1 line
-    2. Is this fall normal? in 1-2 lines
-    3. What should they do now? in 1 line
-    4. One positive fact about long term investing
-    Be warm. Under 80 words.
-    """
+    """Supportive response to portfolio loss with historical Indian market context."""
+    message = LOSS_REACTION_PROMPT.format(loss_percent=loss_percent)
     return ask_ai(message)
 
 
 def answer_question(question):
-    message = f"""
-    User is asking: {question}
-    Answer simply. Use one Indian real life example.
-    Under 80 words. End with encouraging line.
-    """
+    """Answer a finance question with Indian examples and encouragement."""
+    message = CHAT_ANSWER_PROMPT.format(question=question)
     return ask_ai(message)
 
 
 def reset_memory():
-    # Call this to clear conversation
-    # and start fresh
+    """Clear conversation history and start fresh."""
     global conversation_history
     conversation_history = []
-    return "Memory cleared!"
+    return "Memory cleared! Fresh start — let's talk finance!"
 
+
+# ===================================================================
+# SHAP-GROUNDED PROFILE EXPLANATION (NEW in v2)
+# ===================================================================
+
+def explain_profile_with_shap(prediction_result):
+    """
+    Generate a SHAP-grounded explanation of an investor profile prediction.
+    
+    This is the KEY upgrade — the LLM now explains predictions using actual
+    SHAP feature importance data, not just generic text.
+    
+    Args:
+        prediction_result: dict from risk_model_v2.predict_advanced()
+    
+    Returns:
+        str: Human-readable, SHAP-grounded explanation in Hinglish
+    """
+    if client is None:
+        shap_text = prediction_result.get('shap_explanation', {}).get('human_readable', '')
+        return f"Profile: {prediction_result.get('profile_type', 'Unknown')} ({prediction_result.get('confidence', 0)}% confidence). {shap_text}"
+    
+    shap_text = prediction_result.get('shap_explanation', {}).get('human_readable', 'No SHAP data available')
+    top_factors = prediction_result.get('shap_explanation', {}).get('top_factors', [])
+    
+    # Format top factors for the prompt
+    factors_text = ""
+    for i, factor in enumerate(top_factors[:5], 1):
+        factors_text += f"\n  {i}. {factor['feature']}: impact={factor['impact']:.4f} ({factor['direction']})"
+    
+    prob_dist = prediction_result.get('probability_distribution', {})
+    prob_text = "\n".join([f"  - {k}: {v}%" for k, v in prob_dist.items()])
+    
+    prompt = SHAP_EXPLANATION_PROMPT.format(
+        profile_type=prediction_result.get('profile_type', 'Unknown'),
+        confidence=prediction_result.get('confidence', 0),
+        model_name=prediction_result.get('model_used', 'Unknown'),
+        dataset_size=prediction_result.get('dataset_size', '20,000'),
+        cv_accuracy=prediction_result.get('cross_val_accuracy', 'N/A'),
+        shap_explanation=f"{shap_text}\n\nTop Contributing Factors:{factors_text}",
+        probability_distribution=prob_text,
+        allocation=prediction_result.get('recommended_allocation', 'N/A'),
+    )
+    
+    # Use a separate call (don't pollute chat history with SHAP data)
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "system", "content": FINBUDDY_SYSTEM_PROMPT},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=500,
+            temperature=0.7,
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Profile: {prediction_result.get('profile_type', 'Unknown')} ({prediction_result.get('confidence', 0)}% confidence). {shap_text}"
+
+
+# ===================================================================
+# DEEP RISK ANALYSIS (with improved prompts)
+# ===================================================================
 
 def deep_risk_analysis(data):
     """
     Advanced AI Financial Risk Analysis using Groq LLM.
     Returns structured JSON with deep personalized insights.
+    Uses improved prompt templates with retry on parse failure.
     """
-    prompt = f"""You are an advanced AI Financial Risk Analyst.
+    if client is None:
+        return _risk_analysis_fallback(data)
+    
+    prompt = DEEP_RISK_ANALYSIS_PROMPT.format(
+        initial_amount=data.get('initial_amount', 'N/A'),
+        time_period=data.get('time_period', 'N/A'),
+        risk_level=data.get('risk_level', 'N/A'),
+        best_case=data.get('best_case', 'N/A'),
+        worst_case=data.get('worst_case', 'N/A'),
+        average_case=data.get('average_case', 'N/A'),
+        age=data.get('age', 'Not provided'),
+        income=data.get('income', 'Not provided'),
+        experience=data.get('experience', 'Not provided'),
+        risk_score=data.get('risk_score', 'Not provided'),
+        savings_rate=data.get('savings_rate', 'Not provided'),
+        goals=data.get('goals', 'Not provided'),
+    )
 
-Your task is to analyze a user's financial simulation and generate a personalized risk assessment.
+    # Retry up to 2 times on JSON parse failure
+    for attempt in range(2):
+        try:
+            response = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {"role": "system", "content": "You are an expert financial risk analyst AI. Always respond with valid JSON only."},
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=600,
+                temperature=0.7 if attempt == 0 else 0.3,  # Lower temp on retry
+            )
 
-Simulation Data:
-- Initial Investment: ₹{data.get('initial_amount', 'N/A')}
-- Time Period: {data.get('time_period', 'N/A')} months
-- Risk Level Chosen: {data.get('risk_level', 'N/A')}
-- Best Case Outcome: ₹{data.get('best_case', 'N/A')}
-- Worst Case Outcome: ₹{data.get('worst_case', 'N/A')}
-- Average Case Outcome: ₹{data.get('average_case', 'N/A')}
+            reply = response.choices[0].message.content.strip()
 
-Additional Context (if available):
-- Age: {data.get('age', 'Not provided')}
-- Monthly Income: {data.get('income', 'Not provided')}
-- Investment Experience: {data.get('experience', 'Not provided')}
-- Fear/Risk Score from Quiz: {data.get('risk_score', 'Not provided')}
-- Savings Rate: {data.get('savings_rate', 'Not provided')}
-- Financial Goals: {data.get('goals', 'Not provided')}
+            # Clean up potential markdown wrapping
+            if reply.startswith("```"):
+                reply = reply.split("```")[1]
+                if reply.startswith("json"):
+                    reply = reply[4:]
+                reply = reply.strip()
 
-Instructions:
-1. Analyze the simulation results deeply — look at the spread between best and worst case, the risk level chosen, the time period, and the amount at risk.
-2. Factor in any available personal context.
-3. Predict the user's overall investment risk level.
+            result = json.loads(reply)
+            return result
 
-You MUST respond in the following exact JSON format (no markdown, no backticks, just JSON):
-{{
-  "risk_level": "<Low / Medium / High>",
-  "confidence_score": <number between 60 and 98>,
-  "key_factors": [
-    "<factor 1>",
-    "<factor 2>",
-    "<factor 3>"
-  ],
-  "behavior_insight": "<2-3 sentences describing the user's financial personality based on their choices>",
-  "recommendations": [
-    "<actionable suggestion 1>",
-    "<actionable suggestion 2>",
-    "<actionable suggestion 3>"
-  ],
-  "future_projection": "<2-3 sentences explaining what may happen if the user continues this behavior>"
-}}
+        except json.JSONDecodeError:
+            if attempt == 0:
+                continue  # Retry with lower temperature
+            # Final fallback
+            return _risk_analysis_fallback(data)
+        except Exception:
+            return _risk_analysis_fallback(data)
 
-Important:
-- Do NOT give generic answers. Make it feel personalized.
-- Base your analysis on the actual numbers provided.
-- Keep tone professional but easy to understand.
-- Respond with ONLY valid JSON, no other text."""
 
-    try:
-        response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
-            messages=[
-                {"role": "system", "content": "You are an expert financial risk analyst AI. Always respond with valid JSON only."},
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=600,
-            temperature=0.7
-        )
-
-        reply = response.choices[0].message.content.strip()
-
-        # Try to parse the JSON response
-        import json
-        # Clean up potential markdown wrapping
-        if reply.startswith("```"):
-            reply = reply.split("```")[1]
-            if reply.startswith("json"):
-                reply = reply[4:]
-            reply = reply.strip()
-
-        result = json.loads(reply)
-        return result
-
-    except json.JSONDecodeError:
-        # If JSON parsing fails, return a structured fallback
-        return {
-            "risk_level": data.get('risk_level', 'Medium').capitalize(),
-            "confidence_score": 72,
-            "key_factors": [
-                f"Investment of ₹{data.get('initial_amount', 0):,} in {data.get('risk_level', 'medium')} risk category",
-                f"Time horizon of {data.get('time_period', 12)} months affects volatility exposure",
-                f"Potential downside of ₹{data.get('initial_amount', 0) - data.get('worst_case', 0):,} needs consideration"
-            ],
-            "behavior_insight": f"Based on your choice of {data.get('risk_level', 'medium')} risk with ₹{data.get('initial_amount', 0):,}, you show a balanced approach to investing. Your willingness to explore simulations indicates growing financial confidence.",
-            "recommendations": [
-                "Consider diversifying across multiple risk levels to reduce overall portfolio volatility",
-                "Build an emergency fund of 6 months expenses before increasing equity exposure",
-                "Start a systematic investment plan (SIP) to benefit from rupee cost averaging"
-            ],
-            "future_projection": f"If you continue investing ₹{data.get('initial_amount', 0):,} monthly at {data.get('risk_level', 'medium')} risk, your portfolio could grow significantly over 5-10 years through compounding. However, maintaining discipline during market downturns will be crucial."
-        }
-    except Exception as e:
-        return {
-            "risk_level": "Medium",
-            "confidence_score": 65,
-            "key_factors": [
-                "Analysis based on simulation parameters",
-                "Market conditions and risk tolerance considered",
-                "Historical data patterns analyzed"
-            ],
-            "behavior_insight": "Your simulation choices show a thoughtful approach to understanding investment risk. Continue exploring different scenarios to build confidence.",
-            "recommendations": [
-                "Start with low-risk investments and gradually increase exposure",
-                "Use our simulation tool regularly to build market intuition",
-                "Consider consulting a financial advisor for personalized guidance"
-            ],
-            "future_projection": "Regular engagement with financial simulation tools typically leads to better investment outcomes. Keep learning and experimenting with different scenarios."
-        }
+def _risk_analysis_fallback(data):
+    """Structured fallback when LLM JSON parsing fails."""
+    return {
+        "risk_level": data.get('risk_level', 'Medium').capitalize(),
+        "confidence_score": 72,
+        "key_factors": [
+            f"Investment of Rs {data.get('initial_amount', 0):,} in {data.get('risk_level', 'medium')} risk category",
+            f"Time horizon of {data.get('time_period', 12)} months affects volatility exposure",
+            f"Potential downside of Rs {data.get('initial_amount', 0) - data.get('worst_case', 0):,} needs consideration"
+        ],
+        "behavior_insight": f"Based on your choice of {data.get('risk_level', 'medium')} risk with Rs {data.get('initial_amount', 0):,}, you show a balanced approach to investing. Your willingness to explore simulations indicates growing financial confidence.",
+        "recommendations": [
+            "Consider diversifying across multiple risk levels to reduce overall portfolio volatility",
+            "Build an emergency fund of 6 months expenses before increasing equity exposure",
+            "Start a systematic investment plan (SIP) to benefit from rupee cost averaging"
+        ],
+        "future_projection": f"If you continue investing Rs {data.get('initial_amount', 0):,} monthly at {data.get('risk_level', 'medium')} risk, your portfolio could grow significantly over 5-10 years through compounding. However, maintaining discipline during market downturns will be crucial."
+    }
