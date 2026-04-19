@@ -317,8 +317,12 @@ export default function FearQuiz({ darkMode }) {
   if (quizState === 'landing') {
     const attemptCount = getAttemptCount();
     return (
-      <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} flex items-center justify-center px-4`}>
-        <div className="max-w-lg w-full">
+      <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-gray-50'} flex items-center justify-center px-4 relative`}>
+        {/* Quasar Background */}
+        <QuasarBackground />
+        
+        {/* Content Overlay */}
+        <div className="max-w-lg w-full relative z-10">
           <div
             className={`p-8 rounded-3xl shadow-2xl text-center ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white'}`}
             style={{ animation: 'revealSection 0.5s ease-out' }}

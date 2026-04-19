@@ -1,6 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame, extend } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 const ParticleSwarm = () => {
@@ -130,7 +129,6 @@ export default function ParticleBackground() {
       <Canvas camera={{ position: [0, 0, 100], fov: 60 }}>
         <fog attach="fog" args={['#000000', 0.01]} />
         <ParticleSwarm />
-        <OrbitControls autoRotate={false} autoRotateSpeed={0.2} />
       </Canvas>
     </div>
   );

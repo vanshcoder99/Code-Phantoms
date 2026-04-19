@@ -1,6 +1,5 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 const QuasarParticles = () => {
@@ -163,10 +162,9 @@ const QuasarParticles = () => {
 export default function QuasarBackground() {
   return (
     <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-      <Canvas camera={{ position: [0, 0, 100], fov: 60 }}>
+      <Canvas camera={{ position: [0, 0, 200], fov: 60 }}>
         <fog attach="fog" args={['#000000', 0.01]} />
         <QuasarParticles />
-        <OrbitControls autoRotate={true} autoRotateSpeed={0.5} />
       </Canvas>
     </div>
   );
