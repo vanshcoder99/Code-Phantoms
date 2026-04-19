@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Brain, Shield, Zap, CheckCircle, RotateCcw, AlertTriangle, Sparkles, Play, Clock, Award } from 'lucide-react';
 import { useAuth } from '../AuthContext';
+import QuasarBackground from '../components/QuasarBackground';
 
 const questions = [
   {
@@ -552,8 +553,12 @@ export default function FearQuiz({ darkMode }) {
   const q = questions[currentQ];
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} py-6 px-4`}>
-      <div className="max-w-2xl mx-auto">
+    <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-gray-50'} py-6 px-4 relative`}>
+      {/* Quasar Background */}
+      <QuasarBackground />
+      
+      {/* Content Overlay */}
+      <div className="max-w-2xl mx-auto relative z-10">
         {/* Compact Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">

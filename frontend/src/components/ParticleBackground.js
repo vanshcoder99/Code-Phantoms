@@ -130,7 +130,7 @@ export default function ParticleBackground() {
       <Canvas camera={{ position: [0, 0, 100], fov: 60 }}>
         <fog attach="fog" args={['#000000', 0.01]} />
         <ParticleSwarm />
-        <OrbitControls autoRotate={true} autoRotateSpeed={0.5} />
+        <OrbitControls autoRotate={false} autoRotateSpeed={0.2} />
       </Canvas>
     </div>
   );
