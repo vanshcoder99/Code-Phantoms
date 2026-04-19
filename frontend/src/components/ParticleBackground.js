@@ -1,10 +1,7 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame, extend } from '@react-three/fiber';
-import { OrbitControls, Effects } from '@react-three/drei';
-import { UnrealBloomPass } from 'three-stdlib';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-
-extend({ UnrealBloomPass });
 
 const ParticleSwarm = () => {
   const meshRef = useRef();
@@ -134,9 +131,6 @@ export default function ParticleBackground() {
         <fog attach="fog" args={['#000000', 0.01]} />
         <ParticleSwarm />
         <OrbitControls autoRotate={true} autoRotateSpeed={0.5} />
-        <Effects disableGamma>
-          <unrealBloomPass threshold={0} strength={1.8} radius={0.4} />
-        </Effects>
       </Canvas>
     </div>
   );
