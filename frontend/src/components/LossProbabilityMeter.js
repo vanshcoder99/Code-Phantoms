@@ -46,71 +46,63 @@ export default function LossProbabilityMeter({ darkMode, riskLevel = 'medium' })
       <PulseBackground />
       
       {/* Content Overlay */}
-      <div className="max-w-4xl mx-auto relative z-10">
-        <h2 className={`text-4xl font-bold mb-16 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+      <div className="max-w-2xl mx-auto text-center relative z-10">
+        <h2 className={`text-4xl font-bold mb-12 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
           Loss Probability Meter
         </h2>
 
-        {/* Main Container - Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          {/* Left: Gauge */}
-          <div className="flex justify-center md:justify-end">
-            <div className={`relative w-40 h-40 rounded-full bg-gradient-to-r ${getColor()} p-1 shadow-2xl`}>
-              <div className={`w-full h-full rounded-full ${darkMode ? 'bg-black' : 'bg-white'} flex items-center justify-center`}>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-primary">{probability}%</div>
-                  <div className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Loss Risk
-                  </div>
+        {/* Gauge */}
+        <div className="mb-8">
+          <div className={`relative w-48 h-48 mx-auto rounded-full bg-gradient-to-r ${getColor()} p-1 shadow-lg`}>
+            <div className={`w-full h-full rounded-full ${darkMode ? 'bg-tertiary' : 'bg-white'} flex items-center justify-center`}>
+              <div className="text-center">
+                <div className="text-5xl font-bold text-primary">{probability}%</div>
+                <div className={`text-sm font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Chance of Loss
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Center: Risk Info */}
-          <div className="text-center">
-            {/* Risk Label with Icon */}
-            <div className="flex items-center justify-center gap-3 mb-6">
-              {getIcon()}
-              <h3 className={`text-2xl font-bold ${
-                probability <= 20 ? 'text-green-600' : probability <= 40 ? 'text-yellow-600' : 'text-red-600'
-              }`}>
-                {getRiskLabel()}
-              </h3>
-            </div>
+        {/* Risk Label with Icon */}
+        <div className="flex items-center justify-center gap-3 mb-4">
+          {getIcon()}
+          <h3 className={`text-3xl font-bold ${
+            probability <= 20 ? 'text-green-600' : probability <= 40 ? 'text-yellow-600' : 'text-red-600'
+          }`}>
+            {getRiskLabel()}
+          </h3>
+        </div>
 
-            {/* Description */}
-            <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              {getDescription()}
-            </p>
+        {/* Description */}
+        <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          {getDescription()}
+        </p>
 
-            {/* Tip */}
-            <div className={`mt-6 p-3 rounded-lg ${darkMode ? 'bg-primary bg-opacity-20' : 'bg-primary bg-opacity-10'} border border-primary border-opacity-30`}>
-              <p className={`text-xs italic ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                Higher risk = more volatility. Choose based on your timeline.
-              </p>
-            </div>
+        {/* Risk Spectrum */}
+        <div className={`p-6 rounded-lg ${darkMode ? 'bg-secondary' : 'bg-gray-50'} shadow-md`}>
+          <p className={`text-sm font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            Risk Spectrum:
+          </p>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-green-600 font-bold">Low</span>
+            <span className="text-yellow-600 font-bold">Medium</span>
+            <span className="text-red-600 font-bold">High</span>
           </div>
-
-          {/* Right: Risk Spectrum */}
-          <div className={`p-5 rounded-xl ${darkMode ? 'bg-secondary bg-opacity-50' : 'bg-gray-50'} shadow-lg backdrop-blur-sm`}>
-            <p className={`text-xs font-bold mb-4 uppercase tracking-wide ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Risk Spectrum
-            </p>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-green-600 font-bold text-sm">Low</span>
-                <span className="text-yellow-600 font-bold text-sm">Medium</span>
-                <span className="text-red-600 font-bold text-sm">High</span>
-              </div>
-              <div className="w-full h-2 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-full shadow-lg"></div>
-              <div className="flex justify-between text-xs text-gray-500 mt-2">
-                <span>0%</span>
-                <span>50%</span>
-                <span>100%</span>
-              </div>
-            </div>
+          <div className="w-full h-3 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-full"></div>
+          <div className="flex justify-between mt-2 text-xs">
+            <span>0%</span>
+            <span>50%</span>
+            <span>100%</span>
           </div>
+        </div>
+
+        {/* Tip */}
+        <div className={`mt-8 p-4 rounded-lg ${darkMode ? 'bg-primary' : 'bg-primary'} text-white border-l-4 border-primary-dark`}>
+          <p className={`text-sm italic`}>
+            Higher risk does not mean bad. It means more volatility. Choose based on your timeline and comfort level.
+          </p>
         </div>
       </div>
     </section>
