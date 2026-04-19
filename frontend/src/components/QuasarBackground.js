@@ -162,7 +162,7 @@ const QuasarParticles = () => {
 export default function QuasarBackground() {
   return (
     <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-      <Canvas camera={{ position: [0, 0, 200], fov: 60 }}>
+      <Canvas camera={{ position: [0, 0, 80], fov: 60 }}>
         <fog attach="fog" args={['#000000', 0.01]} />
         <QuasarParticles />
       </Canvas>
