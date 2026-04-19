@@ -2,13 +2,14 @@ import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const QuantumPulseSwarm = () => {
+const ParticleSwarm = () => {
   const meshRef = useRef();
   const count = 20000;
   const speedMult = 1;
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const target = useMemo(() => new THREE.Vector3(), []);
   const pColor = useMemo(() => new THREE.Color(), []);
+  const color = pColor;
 
   const positions = useMemo(() => {
     const pos = [];
@@ -65,7 +66,7 @@ const QuantumPulseSwarm = () => {
 
       const hue = (ratio + t * 0.1) % 1.0;
       const saturation = 0.6 + Math.sin(t + ratio * 10.0) * 0.4;
-      pColor.setHSL(hue, saturation, 0.5);
+      color.setHSL(hue, saturation, 0.5);
 
       positions[i].lerp(target, 0.1);
       dummy.position.copy(positions[i]);
@@ -81,12 +82,12 @@ const QuantumPulseSwarm = () => {
   return <instancedMesh ref={meshRef} args={[geometry, material, count]} />;
 };
 
-export default function QuantumPulseBackground() {
+export default function PulseBackground() {
   return (
     <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
       <Canvas camera={{ position: [0, 0, 100], fov: 60 }}>
         <fog attach="fog" args={['#000000', 0.01]} />
-        <QuantumPulseSwarm />
+        <ParticleSwarm />
       </Canvas>
     </div>
   );
