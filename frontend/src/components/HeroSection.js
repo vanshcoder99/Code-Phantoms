@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, BookOpen, Zap, TrendingUp, Shield, Brain, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import ParticleBackground from './ParticleBackground';
 
 function AnimatedCounter({ target, suffix = '', prefix = '', duration = 2000 }) {
   const [count, setCount] = useState(0);
@@ -66,41 +67,15 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
       id="hero"
       className="relative overflow-hidden py-24 px-4 text-center"
       style={{
-        background: darkMode
-          ? 'linear-gradient(135deg, #0C1222 0%, #131B2E 30%, #1C2640 60%, #1E3A5F 100%)'
-          : 'linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 50%, #DBEAFE 100%)',
+        background: '#000000',
+        minHeight: '100vh',
       }}
     >
-      {/* Animated Background Orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute rounded-full opacity-20 blur-3xl"
-          style={{
-            width: '500px', height: '500px',
-            background: 'radial-gradient(circle, #2563EB, transparent)',
-            top: '-100px', right: '-100px',
-            animation: 'floatOrb1 8s ease-in-out infinite',
-          }}
-        />
-        <div
-          className="absolute rounded-full opacity-15 blur-3xl"
-          style={{
-            width: '400px', height: '400px',
-            background: 'radial-gradient(circle, #3B82F6, transparent)',
-            bottom: '-50px', left: '-50px',
-            animation: 'floatOrb2 10s ease-in-out infinite',
-          }}
-        />
-        <div
-          className="absolute rounded-full opacity-10 blur-2xl"
-          style={{
-            width: '300px', height: '300px',
-            background: 'radial-gradient(circle, #7C3AED, transparent)',
-            top: '30%', left: '50%',
-            animation: 'floatOrb3 12s ease-in-out infinite',
-          }}
-        />
+      {/* Particle Background */}
+      <ParticleBackground />
 
+      {/* Content Overlay */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Floating Particles */}
         {[...Array(6)].map((_, i) => (
           <div
@@ -121,7 +96,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
         <div
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-sm"
           style={{
-            background: darkMode ? 'rgba(37, 99, 235, 0.12)' : 'rgba(37, 99, 235, 0.08)',
+            background: 'rgba(37, 99, 235, 0.12)',
             border: '1px solid rgba(37, 99, 235, 0.25)',
             animation: 'fadeInDown 0.6s ease-out',
           }}
@@ -132,7 +107,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
 
         {/* Main Title with Typewriter */}
         <h1
-          className={`text-5xl md:text-7xl font-extrabold mb-6 leading-tight ${darkMode ? 'text-white' : 'text-gray-800'}`}
+          className={`text-5xl md:text-7xl font-extrabold mb-6 leading-tight text-white`}
           style={{ animation: 'fadeInUp 0.8s ease-out' }}
         >
           <span>{typedText}</span>
@@ -141,7 +116,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
 
         {/* Subtitle with rotating words */}
         <p
-          className={`text-xl md:text-2xl mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
+          className={`text-xl md:text-2xl mb-4 text-gray-300`}
           style={{ animation: 'fadeInUp 1s ease-out' }}
         >
           Simulate risk. Understand outcomes. Invest smarter.
@@ -149,7 +124,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
 
         {/* Dynamic rotating caption */}
         <p
-          className={`text-lg mb-10 max-w-2xl mx-auto ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+          className={`text-lg mb-10 max-w-2xl mx-auto text-gray-400`}
           style={{ animation: 'fadeInUp 1.2s ease-out' }}
         >
           Fear comes from{' '}
@@ -179,11 +154,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
 
           <Link
             to="/fear-quiz"
-            className={`group px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center gap-3 hover:scale-105 ${
-              darkMode
-                ? 'bg-white bg-opacity-10 text-white hover:bg-opacity-20 backdrop-blur-sm border border-white border-opacity-20'
-                : 'bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-200 shadow-lg'
-            }`}
+            className={`group px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center gap-3 hover:scale-105 bg-white bg-opacity-10 text-white hover:bg-opacity-20 backdrop-blur-sm border border-white border-opacity-20`}
           >
             <Brain className="w-5 h-5 text-primary" />
             Take Fear Quiz
@@ -204,20 +175,16 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           ].map((stat, i) => (
             <div
               key={i}
-              className={`p-5 rounded-2xl backdrop-blur-sm transition-all hover:scale-105 ${
-                darkMode
-                  ? 'bg-white bg-opacity-5 border border-white border-opacity-10'
-                  : 'bg-white bg-opacity-80 border border-gray-200 shadow-md'
-              }`}
+              className={`p-5 rounded-2xl backdrop-blur-sm transition-all hover:scale-105 bg-white bg-opacity-5 border border-white border-opacity-10`}
             >
               <stat.icon className="w-6 h-6 text-primary mx-auto mb-2" />
-              <p className={`text-2xl md:text-3xl font-extrabold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+              <p className={`text-2xl md:text-3xl font-extrabold text-white`}>
                 {stat.value === 0
                   ? <span>{stat.prefix}{stat.suffix}</span>
                   : <AnimatedCounter target={stat.value} suffix={stat.suffix} prefix={stat.prefix || ''} />
                 }
               </p>
-              <p className={`text-sm mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{stat.label}</p>
+              <p className={`text-sm mt-1 text-gray-400`}>{stat.label}</p>
             </div>
           ))}
         </div>
@@ -243,35 +210,19 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           ].map((card, i) => (
             <div
               key={i}
-              className={`group p-7 rounded-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer ${
-                darkMode
-                  ? 'bg-white bg-opacity-5 border border-white border-opacity-10 hover:bg-opacity-10'
-                  : 'bg-white border border-gray-200 shadow-lg hover:shadow-2xl'
-              }`}
+              className={`group p-7 rounded-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer bg-white bg-opacity-5 border border-white border-opacity-10 hover:bg-opacity-10`}
             >
               <div className={`w-14 h-14 bg-gradient-to-br ${card.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
                 <card.icon className="w-7 h-7 text-white" />
               </div>
-              <p className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{card.title}</p>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{card.desc}</p>
+              <p className={`font-bold text-lg mb-2 text-white`}>{card.title}</p>
+              <p className={`text-sm text-gray-400`}>{card.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
       <style>{`
-        @keyframes floatOrb1 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-30px, 30px) scale(1.1); }
-        }
-        @keyframes floatOrb2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(30px, -20px) scale(1.05); }
-        }
-        @keyframes floatOrb3 {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(-20px, 20px); }
-        }
         @keyframes floatParticle {
           0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
           50% { transform: translateY(-20px) scale(1.5); opacity: 0.6; }
