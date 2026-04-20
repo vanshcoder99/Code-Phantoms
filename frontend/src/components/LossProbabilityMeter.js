@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle, CheckCircle, AlertTriangle } from 'lucide-react';
-import PulseBackground from './PulseBackground';
 
 export default function LossProbabilityMeter({ darkMode, riskLevel = 'medium' }) {
   const [probability, setProbability] = useState(0);
@@ -41,12 +40,8 @@ export default function LossProbabilityMeter({ darkMode, riskLevel = 'medium' })
   };
 
   return (
-    <section className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-white'} relative min-h-screen`}>
-      {/* Pulse Background */}
-      <PulseBackground />
-      
-      {/* Content Overlay */}
-      <div className="max-w-2xl mx-auto text-center relative z-10">
+    <section className={`py-20 px-4 ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
+      <div className="max-w-2xl mx-auto text-center">
         <h2 className={`text-4xl font-bold mb-12 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
           Loss Probability Meter
         </h2>

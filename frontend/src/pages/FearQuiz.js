@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Brain, Shield, Zap, CheckCircle, RotateCcw, AlertTriangle, Sparkles, Play, Clock, Award } from 'lucide-react';
 import { useAuth } from '../AuthContext';
-import QuasarBackground from '../components/QuasarBackground';
 
 const questions = [
   {
@@ -317,12 +316,8 @@ export default function FearQuiz({ darkMode }) {
   if (quizState === 'landing') {
     const attemptCount = getAttemptCount();
     return (
-      <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-gray-50'} flex items-center justify-center px-4 relative`}>
-        {/* Quasar Background */}
-        <QuasarBackground />
-        
-        {/* Content Overlay */}
-        <div className="max-w-lg w-full relative z-10">
+      <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} flex items-center justify-center px-4`}>
+        <div className="max-w-lg w-full">
           <div
             className={`p-8 rounded-3xl shadow-2xl text-center ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white'}`}
             style={{ animation: 'revealSection 0.5s ease-out' }}
@@ -557,12 +552,8 @@ export default function FearQuiz({ darkMode }) {
   const q = questions[currentQ];
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-gray-50'} py-6 px-4 relative`}>
-      {/* Quasar Background */}
-      <QuasarBackground />
-      
-      {/* Content Overlay */}
-      <div className="max-w-2xl mx-auto relative z-10">
+    <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} py-6 px-4`}>
+      <div className="max-w-2xl mx-auto">
         {/* Compact Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
