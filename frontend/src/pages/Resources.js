@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { BookOpen, Video, FileText, ExternalLink, Users, Zap, ChevronDown, ChevronUp } from 'lucide-react';
+import SectionRibbon from '../components/SectionRibbon';
+import { gsap } from 'gsap';
 
 export default function Resources({ darkMode }) {
   const [expandedCategory, setExpandedCategory] = useState(null);
@@ -128,14 +130,24 @@ export default function Resources({ darkMode }) {
   ];
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} py-12 px-4`}>
-      <div className="max-w-6xl mx-auto">
+    <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'}`}>
+      {/* Hero banner */}
+      <div style={{ padding: '48px 16px 32px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: 250, height: 250, background: 'radial-gradient(circle, rgba(37,99,235,0.06), transparent)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
+        <div style={{ width: 64, height: 64, margin: '0 auto 20px', borderRadius: 16, overflow: 'hidden', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+          <img src="/img-learn.png" alt="Learn" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
         <h1 className={`text-4xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
           Learning Resources
         </h1>
-        <p className={`text-lg mb-12 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        <p className={`text-lg mb-4 max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           Comprehensive guides and tutorials to help you master investing and overcome your fears
         </p>
+      </div>
+
+      <SectionRibbon variant="wave" darkMode={darkMode} />
+
+      <div className="max-w-6xl mx-auto px-4 py-8">
 
         {/* Resource Categories */}
         <div className="space-y-6 mb-12">
@@ -146,34 +158,66 @@ export default function Resources({ darkMode }) {
             return (
               <div key={idx} className={`rounded-lg shadow-lg overflow-hidden ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
                 <button
-                  onClick={() => setExpandedCategory(isExpanded ? null : idx)}
+                  onClick={() => {
+                    if (isExpanded) {
+                      // Collapse animation
+                      const panel = document.getElementById(`panel-${idx}`);
+                      if (panel) {
+                        gsap.to(panel, {
+                          height: 0, opacity: 0, duration: 0.35, ease: 'power2.inOut',
+                          onComplete: () => setExpandedCategory(null),
+                        });
+                      } else {
+                        setExpandedCategory(null);
+                      }
+                    } else {
+                      setExpandedCategory(idx);
+                      // Expand animation runs after render via setTimeout
+                      setTimeout(() => {
+                        const panel = document.getElementById(`panel-${idx}`);
+                        if (panel) {
+                          gsap.fromTo(panel,
+                            { height: 0, opacity: 0 },
+                            { height: 'auto', opacity: 1, duration: 0.4, ease: 'power3.out' }
+                          );
+                          // Stagger cards inside
+                          const cards = panel.querySelectorAll('.resource-card');
+                          gsap.fromTo(cards,
+                            { y: 20, opacity: 0 },
+                            { y: 0, opacity: 1, duration: 0.35, stagger: 0.08, ease: 'power2.out', delay: 0.1 }
+                          );
+                        }
+                      }, 10);
+                    }
+                  }}
                   className={`w-full p-6 flex items-center justify-between hover:opacity-80 transition ${
                     darkMode ? 'hover:bg-secondary' : 'hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                    <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(37,99,235,0.25)', transition: 'transform 0.3s', transform: isExpanded ? 'scale(1.1)' : 'scale(1)' }}>
                       <Icon className="w-6 h-6 text-white" />
                     </div>
                     <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-quaternary'}`}>
                       {category.category}
                     </h2>
                   </div>
-                  {isExpanded ? (
-                    <ChevronUp className="w-6 h-6 text-primary" />
-                  ) : (
+                  <div style={{ transition: 'transform 0.3s ease', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                     <ChevronDown className="w-6 h-6 text-primary" />
-                  )}
+                  </div>
                 </button>
 
                 {isExpanded && (
-                  <div className={`border-t ${darkMode ? 'border-secondary' : 'border-gray-200'} p-6 space-y-4`}>
+                  <div id={`panel-${idx}`} className={`border-t ${darkMode ? 'border-secondary' : 'border-gray-200'} p-6 space-y-4`} style={{ overflow: 'hidden' }}>
                     {category.items.map((item, itemIdx) => (
                       <div
                         key={itemIdx}
-                        className={`p-4 rounded-lg border-l-4 border-primary transition ${
+                        className={`resource-card p-4 rounded-lg border-l-4 border-primary transition ${
                           darkMode ? 'bg-secondary hover:bg-secondary-light' : 'bg-gray-50 hover:bg-gray-100'
                         }`}
+                        style={{ cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateX(6px)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(37,99,235,0.1)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateX(0)'; e.currentTarget.style.boxShadow = 'none'; }}
                       >
                         <div className="flex items-start justify-between mb-2">
                           <h3 className={`font-semibold ${darkMode ? 'text-white' : 'text-quaternary'}`}>
@@ -197,6 +241,8 @@ export default function Resources({ darkMode }) {
             );
           })}
         </div>
+
+        <SectionRibbon variant="diagonal" darkMode={darkMode} />
 
         {/* Quick Tips */}
         <div className={`p-8 rounded-lg shadow-lg ${darkMode ? 'bg-tertiary' : 'bg-white'} mb-12`}>
@@ -263,6 +309,8 @@ export default function Resources({ darkMode }) {
             </div>
           </div>
         </div>
+
+        <SectionRibbon variant="split" darkMode={darkMode} />
 
         {/* Common Mistakes */}
         <div className={`p-8 rounded-lg shadow-lg ${darkMode ? 'bg-gradient-to-r from-secondary to-tertiary' : 'bg-gradient-to-r from-gray-100 to-gray-50'}`}>

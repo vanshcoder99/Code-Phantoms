@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, BarChart, Bar, ComposedChart } from 'recharts';
 import { Play, TrendingUp, TrendingDown, BarChart3, CheckCircle, Sparkles, Shield, Target, Brain, AlertTriangle, ArrowRight, Zap } from 'lucide-react';
 import api from '../api';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function RiskSimulator({ darkMode }) {
   const [initialAmount, setInitialAmount] = useState(10000);
@@ -20,6 +24,61 @@ export default function RiskSimulator({ darkMode }) {
   // Sequential reveal state
   const [revealStep, setRevealStep] = useState(0); // 0=none, 1=scenarios, 2=chart, 3=ai-button
   const [revealMessage, setRevealMessage] = useState('');
+
+  // GSAP refs
+  const sectionRef = useRef(null);
+  const headingRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const gridRef = useRef(null);
+
+  // GSAP scroll animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(headingRef.current, {
+        y: 60,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+      });
+
+      gsap.from(subtitleRef.current, {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+      });
+
+      if (gridRef.current) {
+        const panels = gridRef.current.children;
+        gsap.from(panels, {
+          y: 80,
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.9,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const runSimulation = async () => {
     setLoading(true);
@@ -155,14 +214,15 @@ export default function RiskSimulator({ darkMode }) {
 
   return (
     <section
+      ref={sectionRef}
       id="simulator"
       className={`py-20 px-4 ${darkMode ? 'bg-quaternary' : 'bg-gray-50'}`}
     >
       <div className="max-w-7xl mx-auto">
-        <h2 className={`text-4xl font-bold mb-4 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+        <h2 ref={headingRef} className={`text-4xl font-bold mb-4 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
           Risk Simulation Sandbox
         </h2>
-        <p className={`text-lg text-center mb-12 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        <p ref={subtitleRef} className={`text-lg text-center mb-12 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
           Simulate different investment scenarios and see potential outcomes
         </p>
 
@@ -174,7 +234,7 @@ export default function RiskSimulator({ darkMode }) {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
           {/* Input Form */}
           <div className={`p-8 rounded-xl ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white'} shadow-lg`}>
             <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-quaternary'}`}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Code, Zap, Users, Award, TrendingUp, BarChart3, Lightbulb } from 'lucide-react';
+import SectionRibbon from '../components/SectionRibbon';
 
 export default function About({ darkMode }) {
   const team = [
@@ -44,6 +45,10 @@ export default function About({ darkMode }) {
       {/* Hero Section */}
       <div className={`${darkMode ? 'bg-gradient-to-br from-secondary to-tertiary' : 'bg-gradient-to-br from-gray-100 to-gray-50'} py-20 px-4`}>
         <div className="max-w-4xl mx-auto text-center">
+          {/* Hero image */}
+          <div style={{ width: 80, height: 80, margin: '0 auto 24px', borderRadius: 20, overflow: 'hidden', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+            <img src="/img-insights.png" alt="InvestSafe" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
           <h1 className={`text-5xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             About InvestSafe
           </h1>
@@ -52,6 +57,8 @@ export default function About({ darkMode }) {
           </p>
         </div>
       </div>
+
+      <SectionRibbon variant="wave" darkMode={darkMode} />
 
       {/* Mission Section */}
       <div className="py-20 px-4">
@@ -88,6 +95,8 @@ export default function About({ darkMode }) {
         </div>
       </div>
 
+      <SectionRibbon variant="diagonal" darkMode={darkMode} />
+
       {/* Team Section */}
       <div className={`py-20 px-4 ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
         <div className="max-w-6xl mx-auto">
@@ -122,6 +131,8 @@ export default function About({ darkMode }) {
         </div>
       </div>
 
+      <SectionRibbon variant="split" darkMode={darkMode} />
+
       {/* Milestones Section */}
       <div className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
@@ -155,6 +166,8 @@ export default function About({ darkMode }) {
           </div>
         </div>
       </div>
+
+      <SectionRibbon variant="stagger" darkMode={darkMode} />
 
       {/* Tech Stack Section */}
       <div className={`py-20 px-4 ${darkMode ? 'bg-secondary bg-opacity-30' : 'bg-gray-100'}`}>
@@ -251,6 +264,8 @@ export default function About({ darkMode }) {
           </div>
         </div>
       </div>
+
+      <SectionRibbon variant="wave" darkMode={darkMode} />
 
       {/* Why Choose Us */}
       <div className="py-20 px-4">

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Brain, Shield, Zap, CheckCircle, RotateCcw, AlertTriangle, Sparkles, Play, Clock, Award } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Brain, Shield, Zap, CheckCircle, RotateCcw, AlertTriangle, Sparkles, Play, Clock, Award, Target } from 'lucide-react';
 import { useAuth } from '../AuthContext';
+import { gsap } from 'gsap';
 
 const questions = [
   {
@@ -316,57 +317,78 @@ export default function FearQuiz({ darkMode }) {
   if (quizState === 'landing') {
     const attemptCount = getAttemptCount();
     return (
-      <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} flex items-center justify-center px-4`}>
-        <div className="max-w-lg w-full">
-          <div
-            className={`p-8 rounded-3xl shadow-2xl text-center ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white'}`}
-            style={{ animation: 'revealSection 0.5s ease-out' }}
-          >
-            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary bg-opacity-15 flex items-center justify-center">
-              <Brain className="w-8 h-8 text-primary" />
-            </div>
+      <div style={{ minHeight: '100vh', background: darkMode ? 'linear-gradient(180deg, #050A18 0%, #0F172A 100%)' : '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(37,99,235,0.1), transparent)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(124,58,237,0.08), transparent)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
 
-            <h1 className={`text-3xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-              Fear Score Assessment
-            </h1>
-            <p className={`mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Discover your investing fear level in 60 seconds
-            </p>
-
-            {/* Quick info */}
-            <div className={`flex items-center justify-center gap-6 mb-8 text-sm ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-              <div className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4" />
-                <span>~60 sec</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Zap className="w-4 h-4" />
-                <span>5 questions</span>
-              </div>
-              {attemptCount > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <Award className="w-4 h-4" />
-                  <span>{attemptCount} attempts</span>
+        <div style={{ maxWidth: '960px', width: '100%', position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center' }}>
+          {/* Left: Images */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', height: 260, border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+              <img src="/img-fear.png" alt="Overcome Fear" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(transparent 20%, ${darkMode ? 'rgba(5,10,24,0.85)' : 'rgba(255,255,255,0.8)'} 100%)` }} />
+              <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 12px', borderRadius: 999, background: 'rgba(37,99,235,0.15)', border: '1px solid rgba(37,99,235,0.2)', marginBottom: 8 }}>
+                  <Target style={{ width: 12, height: 12, color: '#3B82F6' }} />
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em' }}>AI Assessment</span>
                 </div>
-              )}
+                <p style={{ fontSize: '0.85rem', color: darkMode ? '#94A3B8' : '#64748B', lineHeight: 1.5 }}>Understand your relationship with money and risk</p>
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 130, border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+                <img src="/img-risk.png" alt="Risk" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(transparent 30%, ${darkMode ? 'rgba(5,10,24,0.9)' : 'rgba(255,255,255,0.85)'} 100%)` }} />
+                <p style={{ position: 'absolute', bottom: 10, left: 12, fontSize: '0.75rem', fontWeight: 700, color: darkMode ? '#E2E8F0' : '#1E293B' }}>Risk Analysis</p>
+              </div>
+              <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: 130, border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+                <img src="/img-ai.png" alt="AI" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(transparent 30%, ${darkMode ? 'rgba(5,10,24,0.9)' : 'rgba(255,255,255,0.85)'} 100%)` }} />
+                <p style={{ position: 'absolute', bottom: 10, left: 12, fontSize: '0.75rem', fontWeight: 700, color: darkMode ? '#E2E8F0' : '#1E293B' }}>AI Insights</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Quiz Info */}
+          <div style={{ background: darkMode ? 'rgba(15,23,42,0.6)' : 'rgba(255,255,255,0.95)', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}`, borderRadius: 28, padding: '40px 36px', backdropFilter: 'blur(16px)', animation: 'revealSection 0.6s ease-out' }}>
+            <div style={{ width: 56, height: 56, margin: '0 auto 20px', borderRadius: 16, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 32px rgba(37,99,235,0.35)' }}>
+              <Brain style={{ width: 28, height: 28, color: '#fff' }} />
             </div>
 
-            <button
-              onClick={startQuiz}
-              className="w-full bg-primary hover:bg-primary-dark text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition hover:scale-105 hover:shadow-xl"
-              style={{ boxShadow: '0 4px 20px rgba(37, 99, 235, 0.3)' }}
-            >
-              <Play className="w-5 h-5" />
-              Start Quiz
+            <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: darkMode ? '#F1F5F9' : '#1E293B', marginBottom: 8, textAlign: 'center' }}>Fear Score Assessment</h1>
+            <p style={{ color: darkMode ? '#64748B' : '#94A3B8', marginBottom: 20, fontSize: '0.95rem', textAlign: 'center' }}>Discover your investing fear level in 60 seconds</p>
+
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginBottom: 24 }}>
+              {[{ icon: Clock, text: '~60 sec' }, { icon: Zap, text: '5 questions' }, ...(attemptCount > 0 ? [{ icon: Award, text: `${attemptCount}x` }] : [])].map((item, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.78rem', color: darkMode ? '#475569' : '#94A3B8', fontWeight: 500 }}>
+                  <item.icon style={{ width: 13, height: 13 }} /><span>{item.text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Feature highlights */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+              {[
+                { icon: Shield, text: 'Personalized risk profile', color: '#10B981' },
+                { icon: Brain, text: 'AI-powered recommendations', color: '#3B82F6' },
+                { icon: Sparkles, text: 'Track your progress over time', color: '#8B5CF6' },
+              ].map((f, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 12, background: darkMode ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'}` }}>
+                  <f.icon style={{ width: 16, height: 16, color: f.color, flexShrink: 0 }} />
+                  <span style={{ fontSize: '0.82rem', color: darkMode ? '#94A3B8' : '#64748B', fontWeight: 500 }}>{f.text}</span>
+                </div>
+              ))}
+            </div>
+
+            <button onClick={startQuiz} style={{ width: '100%', padding: '16px', borderRadius: 16, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', color: '#fff', fontWeight: 700, fontSize: '1.05rem', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, boxShadow: '0 8px 32px rgba(37,99,235,0.35)', transition: 'all 0.3s', fontFamily: 'inherit' }}>
+              <Play style={{ width: 18, height: 18 }} /> Start Quiz
             </button>
 
-            {attemptCount > 0 && (
-              <p className={`text-xs mt-4 ${darkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-                You've taken this quiz {attemptCount} time{attemptCount > 1 ? 's' : ''} before
-              </p>
-            )}
+            {attemptCount > 0 && <p style={{ fontSize: '0.72rem', marginTop: 12, color: darkMode ? '#334155' : '#CBD5E1', textAlign: 'center' }}>Taken {attemptCount} time{attemptCount > 1 ? 's' : ''} before</p>}
           </div>
         </div>
+
+        <style>{`@media(max-width:768px){div[style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr!important;}}`}</style>
       </div>
     );
   }
@@ -427,110 +449,49 @@ export default function FearQuiz({ darkMode }) {
   // ═══════════════════════════════════════════
   if (quizState === 'result') {
     return (
-      <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} py-8 px-4`}>
+      <div style={{ minHeight: '100vh', background: darkMode ? 'linear-gradient(180deg, #050A18 0%, #0F172A 100%)' : '#F8FAFC', padding: '32px 16px', position: 'relative', overflow: 'hidden' }}>
         {showConfirmRestart && <ConfirmModal />}
-        <div className="max-w-2xl mx-auto">
-          <div
-            className={`p-8 sm:p-10 rounded-3xl shadow-2xl text-center ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white'}`}
-            style={{ animation: 'resultFadeIn 0.6s ease-out' }}
-          >
+        <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', background: `radial-gradient(circle, ${result.color}15, transparent)`, borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
+          <div style={{ background: darkMode ? 'rgba(15,23,42,0.6)' : 'rgba(255,255,255,0.95)', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}`, borderRadius: '28px', padding: '40px 36px', backdropFilter: 'blur(16px)', textAlign: 'center', animation: 'resultFadeIn 0.6s ease-out' }}>
             {/* Score Circle */}
-            <div className="relative w-36 h-36 mx-auto mb-6">
-              <svg className="w-36 h-36 transform -rotate-90" viewBox="0 0 128 128">
-                <circle cx="64" cy="64" r="56" fill="none" stroke={darkMode ? '#1C2640' : '#e5e7eb'} strokeWidth="8" />
-                <circle
-                  cx="64" cy="64" r="56" fill="none"
-                  stroke={result.color}
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={`${(displayScore / 120) * 352} 352`}
-                  style={{ transition: 'stroke-dasharray 1.5s ease-out' }}
-                />
+            <div style={{ position: 'relative', width: 140, height: 140, margin: '0 auto 24px' }}>
+              <svg width="140" height="140" style={{ transform: 'rotate(-90deg)' }} viewBox="0 0 128 128">
+                <circle cx="64" cy="64" r="56" fill="none" stroke={darkMode ? 'rgba(255,255,255,0.05)' : '#e5e7eb'} strokeWidth="8" />
+                <circle cx="64" cy="64" r="56" fill="none" stroke={result.color} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(displayScore / 120) * 352} 352`} style={{ transition: 'stroke-dasharray 1.5s ease-out', filter: `drop-shadow(0 0 8px ${result.color}60)` }} />
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl">{result.emoji}</span>
-                <span className={`text-2xl font-bold mt-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-                  {displayScore}
-                </span>
-                <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>/ 120</span>
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '2rem' }}>{result.emoji}</span>
+                <span style={{ fontSize: '1.5rem', fontWeight: 800, color: darkMode ? '#F1F5F9' : '#1E293B' }}>{displayScore}</span>
+                <span style={{ fontSize: '0.7rem', color: darkMode ? '#475569' : '#94A3B8' }}>/ 120</span>
               </div>
             </div>
 
-            {/* Result Level */}
-            <div className={`inline-block px-5 py-1.5 rounded-full text-white font-bold text-base mb-5 bg-gradient-to-r ${result.gradient}`}>
+            <div style={{ display: 'inline-block', padding: '6px 20px', borderRadius: 999, color: '#fff', fontWeight: 700, fontSize: '0.85rem', marginBottom: 20, background: `linear-gradient(135deg, ${result.color}, ${result.color}CC)`, boxShadow: `0 4px 16px ${result.color}40` }}>
               {result.level}
             </div>
 
-            <h2 className={`text-2xl font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-              Your Fear Score Analysis
-            </h2>
-            <p className={`mb-5 leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              {result.message}
-            </p>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: darkMode ? '#F1F5F9' : '#1E293B', marginBottom: 12 }}>Your Fear Score Analysis</h2>
+            <p style={{ marginBottom: 20, lineHeight: 1.7, color: darkMode ? '#94A3B8' : '#64748B', fontSize: '0.95rem' }}>{result.message}</p>
 
             {/* Recommendation */}
-            <div className={`p-4 rounded-2xl mb-6 ${darkMode ? 'bg-secondary' : 'bg-gray-50'} border-l-4`} style={{borderColor: result.color}}>
-              <div className="flex items-start gap-3">
-                <Sparkles className="w-5 h-5 flex-shrink-0 mt-0.5 text-primary" />
-                <div className="text-left">
-                  <p className={`font-semibold text-sm mb-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-                    Recommended Next Step
-                  </p>
-                  <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {result.recommendation}
-                  </p>
+            <div style={{ padding: '16px 20px', borderRadius: 16, background: darkMode ? 'rgba(37,99,235,0.06)' : 'rgba(37,99,235,0.04)', border: `1px solid ${darkMode ? 'rgba(37,99,235,0.12)' : 'rgba(37,99,235,0.08)'}`, borderLeft: `4px solid ${result.color}`, textAlign: 'left', marginBottom: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                <Sparkles style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, color: '#3B82F6' }} />
+                <div>
+                  <p style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: 4, color: darkMode ? '#F1F5F9' : '#1E293B' }}>Recommended Next Step</p>
+                  <p style={{ fontSize: '0.85rem', color: darkMode ? '#94A3B8' : '#64748B', lineHeight: 1.6 }}>{result.recommendation}</p>
                 </div>
               </div>
             </div>
 
-            {/* AI Profile CTA */}
-            {isAuthenticated && (
-              <div
-                className={`p-4 rounded-2xl mb-5 cursor-pointer transition-all hover:scale-[1.02] ${
-                  darkMode ? 'bg-blue-900 bg-opacity-20 border border-blue-500 border-opacity-20' : 'bg-blue-50 border border-blue-200'
-                }`}
-                onClick={() => navigate('/dashboard')}
-              >
-                <div className="flex items-center gap-3 mb-1.5">
-                  <div className="w-8 h-8 rounded-lg bg-primary bg-opacity-20 flex items-center justify-center">
-                    <span className="text-lg">🤖</span>
-                  </div>
-                  <p className={`font-bold text-sm ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-                    Unlock Your AI Profile
-                  </p>
-                </div>
-                <p className={`text-xs text-left ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  Get personalized investment recommendations powered by ML — based on your fear score, savings, and financial knowledge.
-                </p>
-              </div>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => navigate(isAuthenticated ? '/dashboard' : '/signup')}
-                className="flex-1 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition hover:scale-105"
-              >
-                {isAuthenticated ? (
-                  <>
-                    <Sparkles className="w-5 h-5" />
-                    Explore AI Dashboard
-                  </>
-                ) : (
-                  <>
-                    Create Free Account
-                    <ArrowRight className="w-5 h-5" />
-                  </>
-                )}
+            {/* Buttons */}
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button onClick={() => navigate(isAuthenticated ? '/dashboard' : '/signup')} style={{ flex: 1, padding: '14px', borderRadius: 14, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', color: '#fff', fontWeight: 700, fontSize: '0.9rem', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 6px 24px rgba(37,99,235,0.3)', fontFamily: 'inherit' }}>
+                {isAuthenticated ? <><Sparkles style={{ width: 16, height: 16 }} />AI Dashboard</> : <>Create Account<ArrowRight style={{ width: 16, height: 16 }} /></>}
               </button>
-              <button
-                onClick={handleRetake}
-                className={`flex-1 py-3 rounded-xl font-bold transition hover:scale-105 flex items-center justify-center gap-2 ${
-                  darkMode ? 'bg-secondary text-white hover:bg-quaternary' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                <RotateCcw className="w-4 h-4" />
-                Retake Quiz
+              <button onClick={handleRetake} style={{ flex: 1, padding: '14px', borderRadius: 14, background: darkMode ? 'rgba(255,255,255,0.06)' : '#E2E8F0', color: darkMode ? '#E2E8F0' : '#374151', fontWeight: 700, fontSize: '0.9rem', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'inherit' }}>
+                <RotateCcw style={{ width: 14, height: 14 }} /> Retake
               </button>
             </div>
           </div>
@@ -546,107 +507,95 @@ export default function FearQuiz({ darkMode }) {
   }
 
   // ═══════════════════════════════════════════
-  //  STATE 4: ACTIVE — Quiz in progress
-  //  Only reached when user explicitly clicked Start
-  // ═══════════════════════════════════════════
+  const questionImages = ['/img-risk.png', '/img-learn.png', '/img-insights.png', '/img-ai.png', '/img-fear.png'];
   const q = questions[currentQ];
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'} py-6 px-4`}>
-      <div className="max-w-2xl mx-auto">
-        {/* Compact Header */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Brain className="w-6 h-6 text-primary" />
-            <h1 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-              Fear Score Assessment
-            </h1>
+    <div style={{ minHeight: '100vh', background: darkMode ? 'linear-gradient(180deg, #050A18 0%, #0F172A 100%)' : '#F8FAFC', padding: '24px 16px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(37,99,235,0.08), transparent)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
+
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Brain style={{ width: 18, height: 18, color: '#fff' }} />
+            </div>
+            <span style={{ fontSize: '1rem', fontWeight: 700, color: darkMode ? '#F1F5F9' : '#1E293B' }}>Fear Assessment</span>
           </div>
-          <span className={`text-sm font-bold text-primary`}>
-            {currentQ + 1}/{questions.length}
-          </span>
+          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#3B82F6' }}>{currentQ + 1}/{questions.length}</span>
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-5">
-          <div className={`h-2 rounded-full overflow-hidden ${darkMode ? 'bg-secondary' : 'bg-gray-200'}`}>
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-primary to-blue-400 transition-all duration-500 ease-out"
-              style={{ width: `${progress}%` }}
-            />
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ height: 6, borderRadius: 999, background: darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', overflow: 'hidden' }}>
+            <div style={{ height: '100%', borderRadius: 999, width: `${progress}%`, background: 'linear-gradient(90deg, #2563EB, #7C3AED)', transition: 'width 0.5s ease-out', boxShadow: '0 0 12px rgba(37,99,235,0.4)' }} />
           </div>
         </div>
 
-        {/* Question Card — compact layout so options are visible */}
-        <div
-          className={`p-6 rounded-2xl shadow-xl ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white'} ${animating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'} transition-all duration-300`}
-        >
-          {/* Question — compact */}
-          <div className="flex items-start gap-4 mb-5">
-            <span className="text-3xl flex-shrink-0">{q.emoji}</span>
-            <h2 className={`text-lg font-bold leading-snug ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-              {q.question}
-            </h2>
+        {/* Two-column layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 20, alignItems: 'start' }}>
+          {/* Left sidebar: Image + step indicators */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', height: 200, border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+              <img src={questionImages[currentQ]} alt="Context" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'opacity 0.3s' }} />
+              <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(transparent 30%, ${darkMode ? 'rgba(5,10,24,0.9)' : 'rgba(255,255,255,0.85)'} 100%)` }} />
+              <div style={{ position: 'absolute', bottom: 14, left: 14, right: 14 }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Q{currentQ + 1} of {questions.length}</span>
+              </div>
+            </div>
+
+            {/* Step dots */}
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+              {questions.map((_, i) => (
+                <div key={i} style={{
+                  width: i === currentQ ? 28 : 10, height: 10, borderRadius: 999,
+                  background: i < currentQ ? '#10B981' : i === currentQ ? 'linear-gradient(90deg, #2563EB, #7C3AED)' : (darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'),
+                  transition: 'all 0.3s ease',
+                }} />
+              ))}
+            </div>
+
+            {/* Quick tip */}
+            <div style={{ padding: '14px 16px', borderRadius: 14, background: darkMode ? 'rgba(15,23,42,0.5)' : 'rgba(255,255,255,0.9)', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)'}` }}>
+              <p style={{ fontSize: '0.72rem', color: darkMode ? '#475569' : '#94A3B8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>💡 Tip</p>
+              <p style={{ fontSize: '0.78rem', color: darkMode ? '#64748B' : '#94A3B8', lineHeight: 1.5 }}>There are no wrong answers — be honest for the most accurate result.</p>
+            </div>
           </div>
 
-          {/* Options — compact spacing */}
-          <div className="space-y-2.5 mb-5">
-            {q.options.map((option, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSelect(option.score)}
-                className={`w-full text-left p-3.5 rounded-xl border-2 transition-all duration-200 hover:scale-[1.01] ${
-                  selectedOption === option.score
-                    ? 'border-primary bg-primary bg-opacity-10 shadow-md'
-                    : darkMode
-                      ? 'border-gray-700 hover:border-primary bg-secondary bg-opacity-50'
-                      : 'border-gray-200 hover:border-primary bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                    selectedOption === option.score
-                      ? 'border-primary bg-primary'
-                      : darkMode ? 'border-gray-500' : 'border-gray-300'
-                  }`}>
-                    {selectedOption === option.score && (
-                      <CheckCircle className="w-3.5 h-3.5 text-white" />
-                    )}
+          {/* Right: Question Card */}
+          <div style={{ background: darkMode ? 'rgba(15,23,42,0.6)' : 'rgba(255,255,255,0.95)', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}`, borderRadius: 24, padding: '28px', backdropFilter: 'blur(16px)', opacity: animating ? 0 : 1, transform: animating ? 'translateY(16px)' : 'translateY(0)', transition: 'all 0.3s ease' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 24 }}>
+              <span style={{ fontSize: '2.2rem', flexShrink: 0 }}>{q.emoji}</span>
+              <h2 style={{ fontSize: '1.15rem', fontWeight: 700, lineHeight: 1.4, color: darkMode ? '#F1F5F9' : '#1E293B' }}>{q.question}</h2>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+              {q.options.map((option, idx) => (
+                <button key={idx} onClick={() => handleSelect(option.score)} style={{ width: '100%', textAlign: 'left', padding: '14px 16px', borderRadius: 14, border: `2px solid ${selectedOption === option.score ? '#3B82F6' : darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}`, background: selectedOption === option.score ? (darkMode ? 'rgba(37,99,235,0.1)' : 'rgba(37,99,235,0.05)') : (darkMode ? 'rgba(15,23,42,0.5)' : '#F8FAFC'), cursor: 'pointer', transition: 'all 0.2s', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 22, height: 22, borderRadius: '50%', border: `2px solid ${selectedOption === option.score ? '#3B82F6' : darkMode ? '#475569' : '#CBD5E1'}`, background: selectedOption === option.score ? '#3B82F6' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.2s' }}>
+                    {selectedOption === option.score && <CheckCircle style={{ width: 14, height: 14, color: '#fff' }} />}
                   </div>
-                  <span className={`text-sm font-medium ${
-                    selectedOption === option.score
-                      ? 'text-primary'
-                      : darkMode ? 'text-gray-200' : 'text-gray-700'
-                  }`}>
-                    {option.text}
-                  </span>
-                </div>
-              </button>
-            ))}
-          </div>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 500, color: selectedOption === option.score ? '#3B82F6' : (darkMode ? '#E2E8F0' : '#374151') }}>{option.text}</span>
+                </button>
+              ))}
+            </div>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-between">
-            <button
-              onClick={handleBack}
-              disabled={currentQ === 0}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition disabled:opacity-30 disabled:cursor-not-allowed ${
-                darkMode ? 'bg-secondary text-white hover:bg-quaternary' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              <ArrowLeft className="w-4 h-4" /> Back
-            </button>
-            <button
-              onClick={handleNext}
-              disabled={selectedOption === null}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-bold transition hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
-            >
-              {currentQ + 1 >= questions.length ? 'See Results' : 'Next'}
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <button onClick={handleBack} disabled={currentQ === 0} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', borderRadius: 12, fontWeight: 600, fontSize: '0.85rem', border: 'none', cursor: currentQ === 0 ? 'not-allowed' : 'pointer', opacity: currentQ === 0 ? 0.3 : 1, background: darkMode ? 'rgba(255,255,255,0.06)' : '#E2E8F0', color: darkMode ? '#E2E8F0' : '#374151', transition: 'all 0.2s', fontFamily: 'inherit' }}>
+                <ArrowLeft style={{ width: 14, height: 14 }} /> Back
+              </button>
+              <button onClick={handleNext} disabled={selectedOption === null} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 22px', borderRadius: 12, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', color: '#fff', fontWeight: 700, fontSize: '0.9rem', border: 'none', cursor: selectedOption === null ? 'not-allowed' : 'pointer', opacity: selectedOption === null ? 0.5 : 1, boxShadow: '0 4px 16px rgba(37,99,235,0.3)', transition: 'all 0.3s', fontFamily: 'inherit' }}>
+                {currentQ + 1 >= questions.length ? 'See Results' : 'Next'}
+                <ArrowRight style={{ width: 14, height: 14 }} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      <style>{`@media(max-width:768px){div[style*="grid-template-columns: 280px"]{grid-template-columns:1fr!important;}}`}</style>
     </div>
   );
 }
+

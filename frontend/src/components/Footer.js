@@ -1,12 +1,55 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { Mail, GitBranch, Linkedin } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Footer({ darkMode }) {
+  const footerRef = useRef(null);
+  const gridRef = useRef(null);
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      if (gridRef.current) {
+        const cols = gridRef.current.children;
+        gsap.from(cols, {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+          },
+        });
+      }
+
+      gsap.from(bottomRef.current, {
+        y: 20,
+        opacity: 0,
+        duration: 0.7,
+        delay: 0.4,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+        },
+      });
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className={`${darkMode ? 'bg-quaternary text-gray-400' : 'bg-quaternary text-gray-400'} py-12 px-4`}>
+    <footer ref={footerRef} className={`${darkMode ? 'bg-quaternary text-gray-400' : 'bg-quaternary text-gray-400'} py-12 px-4`}>
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* About */}
           <div>
             <h3 className="text-white font-bold mb-4">About InvestSafe</h3>
@@ -44,7 +87,7 @@ export default function Footer({ darkMode }) {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-8 text-center text-sm">
+        <div ref={bottomRef} className="border-t border-gray-700 pt-8 text-center text-sm">
           <p>Copyright 2026 InvestSafe. All rights reserved. Built for young investors</p>
         </div>
       </div>
