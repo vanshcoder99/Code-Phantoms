@@ -83,7 +83,6 @@ export default function RiskSimulator({ darkMode }) {
   // Automatically run simulation on mount to prevent empty dark box
   useEffect(() => {
     runSimulation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const runSimulation = async () => {
