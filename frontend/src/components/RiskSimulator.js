@@ -35,26 +35,26 @@ export default function RiskSimulator({ darkMode }) {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(headingRef.current, {
-        y: 60,
+        y: 30,
         opacity: 0,
-        duration: 0.9,
+        duration: 0.6,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
+          start: 'top bottom',
           toggleActions: 'play none none none',
         },
       });
 
       gsap.from(subtitleRef.current, {
-        y: 40,
+        y: 20,
         opacity: 0,
-        duration: 0.8,
-        delay: 0.15,
+        duration: 0.5,
+        delay: 0.1,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
+          start: 'top bottom',
           toggleActions: 'play none none none',
         },
       });
@@ -62,15 +62,15 @@ export default function RiskSimulator({ darkMode }) {
       if (gridRef.current) {
         const panels = gridRef.current.children;
         gsap.from(panels, {
-          y: 80,
+          y: 40,
           opacity: 0,
-          scale: 0.95,
-          duration: 0.9,
-          stagger: 0.2,
+          scale: 0.97,
+          duration: 0.6,
+          stagger: 0.15,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: gridRef.current,
-            start: 'top 85%',
+            start: 'top bottom',
             toggleActions: 'play none none none',
           },
         });
@@ -78,6 +78,12 @@ export default function RiskSimulator({ darkMode }) {
     }, sectionRef);
 
     return () => ctx.revert();
+  }, []);
+
+  // Automatically run simulation on mount to prevent empty dark box
+  useEffect(() => {
+    runSimulation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const runSimulation = async () => {
@@ -216,13 +222,13 @@ export default function RiskSimulator({ darkMode }) {
     <section
       ref={sectionRef}
       id="simulator"
-      className={`py-20 px-4 ${darkMode ? 'bg-quaternary' : 'bg-gray-50'}`}
+      className={`py-6 px-4 ${darkMode ? 'bg-quaternary' : 'bg-gray-50'}`}
     >
       <div className="max-w-7xl mx-auto">
-        <h2 ref={headingRef} className={`text-4xl font-bold mb-4 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+        <h2 ref={headingRef} className={`text-2xl font-bold mb-3 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
           Risk Simulation Sandbox
         </h2>
-        <p ref={subtitleRef} className={`text-lg text-center mb-12 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        <p ref={subtitleRef} className={`text-sm text-center mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
           Simulate different investment scenarios and see potential outcomes
         </p>
 

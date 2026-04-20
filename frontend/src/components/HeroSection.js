@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, BookOpen, Zap, TrendingUp, Shield, Brain, Users, BarChart3, PieChart, Activity } from 'lucide-react';
+import { ArrowRight, BookOpen, Zap, TrendingUp, Shield, Brain, Users, BarChart3, PieChart, Activity, Sparkles, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import P5Background from './P5Background';
@@ -174,32 +174,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
         }, '-=0.4');
       }
 
-      // Stats cards stagger in
-      if (statsRef.current) {
-        const statCards = statsRef.current.children;
-        tl.from(statCards, {
-          y: 60,
-          opacity: 0,
-          scale: 0.85,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: 'back.out(1.3)',
-        }, '-=0.3');
-      }
-
-      // Feature cards stagger in
-      if (cardsRef.current) {
-        const featureCards = cardsRef.current.children;
-        tl.from(featureCards, {
-          y: 80,
-          opacity: 0,
-          rotateX: 12,
-          scale: 0.9,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-        }, '-=0.3');
-      }
+      // Lower hero elements removed from GSAP to prevent "stuck at zero opacity" gap bug.
 
       // Parallax on scroll
       gsap.to(sectionRef.current, {
@@ -208,19 +183,6 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
-
-      // Fade out hero content on scroll
-      gsap.to('.hero-content', {
-        y: -50,
-        opacity: 0.2,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: '50% top',
           end: 'bottom top',
           scrub: 1,
         },
@@ -250,7 +212,6 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
       id="hero"
       className="relative overflow-hidden text-center"
       style={{
-        minHeight: '100vh',
         background: darkMode
           ? '#050A18'
           : 'linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 50%, #DBEAFE 100%)',
@@ -289,21 +250,22 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
       <P5Background darkMode={darkMode} />
 
       {/* ─── Main Content ─── */}
-      <div className="relative z-10 hero-content" style={{ paddingTop: '80px', paddingBottom: '60px' }}>
-        <div className="max-w-6xl mx-auto px-4">
+      <div className="relative z-10 hero-content" style={{ paddingTop: '56px', paddingBottom: '32px' }}>
+        <div className="mx-auto px-4" style={{ maxWidth: '1200px' }}>
 
           {/* Badge */}
           <div
             ref={badgeRef}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full mb-8"
+            className="inline-flex items-center gap-2 rounded-full mb-6"
             style={{
               background: 'rgba(37, 99, 235, 0.1)',
               border: '1px solid rgba(37, 99, 235, 0.2)',
               backdropFilter: 'blur(12px)',
+              padding: '6px 16px',
             }}
           >
             <div className="w-2 h-2 rounded-full bg-green-400" style={{ animation: 'pulse 2s infinite' }} />
-            <span style={{ color: '#93C5FD', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.03em' }}>
+            <span style={{ color: '#93C5FD', fontSize: '13px', fontWeight: 600, letterSpacing: '0.03em' }}>
               AI-Powered Investment Education
             </span>
           </div>
@@ -312,18 +274,19 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           <h1
             ref={titleRef}
             style={{
-              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontSize: '2.5rem',
               fontWeight: 800,
               lineHeight: 1.1,
-              marginBottom: '1.5rem',
+              marginBottom: '1rem',
               letterSpacing: '-0.03em',
               transformOrigin: 'center bottom',
             }}
           >
-            <span style={{ color: darkMode ? '#fff' : '#1E293B' }}>Overcome Your </span>
+            <span style={{ color: darkMode ? '#fff' : '#1E293B', fontSize: 'min(56px, 10vw)', fontWeight: 800 }}>Overcome Your </span>
             <br />
             <span
               style={{
+                fontSize: 'min(60px, 11vw)',
                 background: 'linear-gradient(135deg, #3B82F6, #8B5CF6, #06B6D4)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -338,10 +301,12 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           <p
             ref={subtitleRef}
             style={{
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
+              fontSize: '18px',
               color: darkMode ? '#94A3B8' : '#64748B',
-              marginBottom: '0.75rem',
+              marginBottom: '0',
               fontWeight: 500,
+              maxWidth: '600px',
+              margin: '0 auto',
             }}
           >
             Simulate risk. Understand outcomes. Invest smarter.
@@ -351,13 +316,14 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           <p
             ref={captionRef}
             style={{
-              fontSize: '1rem',
+              fontSize: '18px',
               color: darkMode ? '#64748B' : '#94A3B8',
-              marginBottom: '2.5rem',
+              marginBottom: '32px',
+              marginTop: '4px',
               maxWidth: '600px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              lineHeight: 1.7,
+              lineHeight: 1.6,
             }}
           >
             Fear comes from{' '}
@@ -378,8 +344,9 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           {/* CTA Buttons */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14"
+            style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}
           >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
             <button
               onClick={onStartSimulation}
               onMouseMove={handleMagneticHover}
@@ -388,13 +355,13 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
               style={{
                 background: 'linear-gradient(135deg, #2563EB, #7C3AED)',
                 color: '#fff',
-                padding: '16px 36px',
-                borderRadius: '16px',
+                padding: '14px 36px',
+                borderRadius: '50px',
                 fontWeight: 700,
-                fontSize: '1.05rem',
+                fontSize: '17px',
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 8px 32px rgba(37, 99, 235, 0.4), 0 0 60px rgba(37, 99, 235, 0.15)',
+                boxShadow: '0 0 24px rgba(99, 102, 241, 0.5)',
                 transition: 'box-shadow 0.3s, transform 0.3s',
               }}
             >
@@ -408,10 +375,10 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
               onMouseLeave={handleMagneticLeave}
               className="group flex items-center gap-3"
               style={{
-                padding: '16px 36px',
-                borderRadius: '16px',
+                padding: '14px 36px',
+                borderRadius: '50px',
                 fontWeight: 700,
-                fontSize: '1.05rem',
+                fontSize: '17px',
                 border: '1px solid rgba(148, 163, 184, 0.2)',
                 background: darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.9)',
                 color: darkMode ? '#E2E8F0' : '#374151',
@@ -425,12 +392,14 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
               Take Fear Quiz
               <ArrowRight className="w-5 h-5 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
             </Link>
+            </div>
           </div>
 
           {/* ─── Live Graph Dashboard Mini-Cards ─── */}
           <div
             ref={graphPanelRef}
-            className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10 max-w-5xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-[24px] mb-8 w-full mx-auto"
+            style={{ width: '100%' }}
           >
             {[
               { label: 'Portfolio Growth', value: '+24.8%', data: sparklineData1, color: '#10B981', icon: TrendingUp },
@@ -443,31 +412,50 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
                   background: darkMode ? 'rgba(15, 23, 42, 0.6)' : 'rgba(255,255,255,0.85)',
                   border: `1px solid ${darkMode ? 'rgba(37, 99, 235, 0.12)' : 'rgba(0,0,0,0.08)'}`,
                   borderRadius: '16px',
-                  padding: '24px',
+                  padding: '20px 24px',
                   backdropFilter: 'blur(16px)',
                   textAlign: 'left',
                 }}
               >
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <chart.icon style={{ width: 16, height: 16, color: chart.color }} />
-                    <span style={{ fontSize: '0.75rem', color: darkMode ? '#64748B' : '#94A3B8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <span style={{ fontSize: '11px', color: darkMode ? '#64748B' : '#94A3B8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px' }}>
                       {chart.label}
                     </span>
                   </div>
-                  <span style={{ fontSize: '1.1rem', fontWeight: 800, color: chart.color }}>
+                  <span style={{ fontSize: '22px', fontWeight: 700, color: chart.color }}>
                     {chart.value}
                   </span>
                 </div>
-                <MiniSparkline data={chart.data} color={chart.color} width={280} height={60} />
+                <MiniSparkline data={chart.data} color={chart.color} width={280} height={80} />
               </div>
             ))}
+          </div>
+
+          {/* Trust Strip */}
+          <div 
+            className="flex flex-col md:flex-row items-center justify-center gap-6 mx-auto mb-8" 
+            style={{ 
+              padding: '20px', 
+              borderRadius: '12px', 
+              background: darkMode ? 'rgba(30, 41, 59, 0.5)' : 'rgba(255,255,255,0.8)', 
+              border: darkMode ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)', 
+              backdropFilter: 'blur(8px)',
+              maxWidth: 'fit-content'
+            }}
+          >
+            <div className="flex items-center gap-3"><Shield className="w-6 h-6 text-blue-500" /> <span className={`font-semibold text-sm ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>Zero Real Risk</span></div>
+            <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-gray-400 opacity-30"></div>
+            <div className="flex items-center gap-3"><TrendingUp className="w-6 h-6 text-green-500" /> <span className={`font-semibold text-sm ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>Real Market Data</span></div>
+            <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-gray-400 opacity-30"></div>
+            <div className="flex items-center gap-3"><Brain className="w-6 h-6 text-purple-500" /> <span className={`font-semibold text-sm ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>AI-Powered Coaching</span></div>
           </div>
 
           {/* Stats Counter */}
           <div
             ref={statsRef}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6"
           >
             {[
               { icon: Users, value: 2500, suffix: '+', label: 'Learners' },
@@ -479,7 +467,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
                 key={i}
                 className="stat-card"
                 style={{
-                  padding: '20px',
+                  padding: '14px',
                   borderRadius: '16px',
                   background: darkMode ? 'rgba(15, 23, 42, 0.5)' : 'rgba(255,255,255,0.85)',
                   border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}`,
@@ -488,7 +476,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
                 }}
               >
                 <stat.icon style={{ width: 24, height: 24, color: '#3B82F6', margin: '0 auto 8px' }} />
-                <p style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', fontWeight: 800, color: darkMode ? '#fff' : '#1E293B' }}>
+                <p style={{ fontSize: '1.5rem', fontWeight: 800, color: darkMode ? '#fff' : '#1E293B' }}>
                   {stat.value === 0
                     ? <span>{stat.prefix}{stat.suffix}</span>
                     : <AnimatedCounter target={stat.value} suffix={stat.suffix} prefix={stat.prefix || ''} />
@@ -500,7 +488,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
           </div>
 
           {/* Feature Cards with Images */}
-          <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               {
                 icon: BookOpen, title: 'Learn Risk-Free',
@@ -587,7 +575,7 @@ export default function HeroSection({ darkMode, onStartSimulation }) {
       <div
         className="absolute bottom-0 left-0 right-0"
         style={{
-          height: '120px',
+          height: '30px',
           background: darkMode
             ? 'linear-gradient(transparent, #0C1222)'
             : 'linear-gradient(transparent, #F8FAFC)',

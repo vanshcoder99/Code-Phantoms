@@ -42,53 +42,26 @@ export default function LearningSection({ darkMode }) {
     },
   ];
 
-  // GSAP scroll animations
+  // Simple fade-in on mount — no scrollTrigger to avoid invisible cards
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(headingRef.current, {
-        y: 60,
-        opacity: 0,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
+    if (headingRef.current) {
+      headingRef.current.style.opacity = '1';
+      headingRef.current.style.transform = 'translateY(0)';
+    }
+    if (gridRef.current) {
+      Array.from(gridRef.current.children).forEach((card, i) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0) scale(1)';
+        }, 100 + i * 80);
       });
-
-      if (gridRef.current) {
-        const cards = gridRef.current.children;
-        gsap.from(cards, {
-          y: 70,
-          opacity: 0,
-          scale: 0.85,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        });
-      }
-
-      gsap.from(ctaRef.current, {
-        y: 60,
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: ctaRef.current,
-          start: 'top 90%',
-          toggleActions: 'play none none none',
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    }
+    if (ctaRef.current) {
+      setTimeout(() => {
+        ctaRef.current.style.opacity = '1';
+        ctaRef.current.style.transform = 'translateY(0)';
+      }, 500);
+    }
   }, []);
 
   return (
@@ -96,7 +69,7 @@ export default function LearningSection({ darkMode }) {
       ref={sectionRef}
       id="learning"
       style={{
-        padding: '80px 16px',
+        padding: '24px 16px',
         background: darkMode
           ? 'linear-gradient(180deg, #0C1222 0%, #0F172A 100%)'
           : 'linear-gradient(180deg, #fff 0%, #F8FAFC 100%)',
@@ -110,7 +83,7 @@ export default function LearningSection({ darkMode }) {
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         {/* Heading */}
-        <div ref={headingRef} style={{ textAlign: 'center', marginBottom: '52px' }}>
+        <div ref={headingRef} style={{ textAlign: 'center', marginBottom: '16px' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '8px 16px', borderRadius: '999px',
@@ -123,12 +96,12 @@ export default function LearningSection({ darkMode }) {
             </span>
           </div>
           <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800,
-            color: darkMode ? '#F1F5F9' : '#1E293B', marginBottom: 12,
+            fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800,
+            color: darkMode ? '#F1F5F9' : '#1E293B', marginBottom: 8,
           }}>
             Learning Hub
           </h2>
-          <p style={{ fontSize: '1.05rem', color: darkMode ? '#64748B' : '#94A3B8', maxWidth: 500, margin: '0 auto' }}>
+          <p style={{ fontSize: '0.9rem', color: darkMode ? '#64748B' : '#94A3B8', maxWidth: 500, margin: '0 auto' }}>
             Build your investment knowledge from the ground up
           </p>
         </div>
@@ -137,8 +110,8 @@ export default function LearningSection({ darkMode }) {
         <div ref={gridRef} style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '20px',
-          marginBottom: '48px',
+          gap: '14px',
+          marginBottom: '28px',
         }}>
           {cards.map((card, idx) => {
             const Icon = card.icon;
@@ -169,7 +142,7 @@ export default function LearningSection({ darkMode }) {
                 }}
               >
                 {/* Card Image */}
-                <div style={{ position: 'relative', height: '160px', overflow: 'hidden' }}>
+                <div style={{ position: 'relative', height: '130px', overflow: 'hidden' }}>
                   <img
                     src={card.image}
                     alt={card.title}
@@ -199,9 +172,9 @@ export default function LearningSection({ darkMode }) {
                 </div>
 
                 {/* Card Content */}
-                <div style={{ padding: '26px 20px 22px' }}>
+                <div style={{ padding: '20px 16px 18px' }}>
                   <h3 style={{
-                    fontSize: '1.1rem', fontWeight: 700, marginBottom: 8,
+                    fontSize: '1rem', fontWeight: 700, marginBottom: 6,
                     color: darkMode ? '#F1F5F9' : '#1E293B',
                   }}>
                     {card.title}
@@ -222,8 +195,8 @@ export default function LearningSection({ darkMode }) {
         <div
           ref={ctaRef}
           style={{
-            padding: '40px',
-            borderRadius: '24px',
+            padding: '28px',
+            borderRadius: '18px',
             textAlign: 'center',
             background: darkMode
               ? 'linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.06))'
@@ -246,8 +219,8 @@ export default function LearningSection({ darkMode }) {
           }} />
 
           <h3 style={{
-            fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', fontWeight: 800,
-            color: darkMode ? '#F1F5F9' : '#1E293B', marginBottom: 12,
+            fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)', fontWeight: 800,
+            color: darkMode ? '#F1F5F9' : '#1E293B', marginBottom: 8,
           }}>
             Ready to Start Your Journey?
           </h3>

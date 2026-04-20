@@ -9,6 +9,7 @@ from routes.simulation import router as simulation_router
 from routes.portfolio import router as portfolio_router
 from routes.dashboard import router as dashboard_router
 from routes.auth import router as auth_router
+from routes.simulator import router as simulator_router
 from database import engine, Base
 
 # Create all database tables on startup
@@ -34,6 +35,7 @@ app.include_router(ai_router)
 app.include_router(simulation_router)
 app.include_router(portfolio_router)
 app.include_router(dashboard_router)
+app.include_router(simulator_router, prefix="/simulator", tags=["simulator"])
 
 # Health check endpoint
 @app.get("/")
@@ -42,7 +44,7 @@ def home():
         "status": "Investing Fear API is running!",
         "version": "2.0.0",
         "docs": "/docs",
-        "features": ["auth", "simulations", "portfolios", "ai-chat", "dashboard"]
+        "features": ["auth", "simulations", "portfolios", "ai-chat", "dashboard", "arena-simulator"]
     }
 
 @app.get("/health")

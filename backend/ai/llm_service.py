@@ -264,3 +264,113 @@ def _risk_analysis_fallback(data):
         ],
         "future_projection": f"If you continue investing Rs {data.get('initial_amount', 0):,} monthly at {data.get('risk_level', 'medium')} risk, your portfolio could grow significantly over 5-10 years through compounding. However, maintaining discipline during market downturns will be crucial."
     }
+
+
+# ===================================================================
+# SIMULATOR EVENT EXPLAINER (NEW — InvestSafe Arena)
+# ===================================================================
+
+def explain_simulator_event(event_type: str, event_data: dict, investor_profile: str = None) -> str:
+    """
+    Explain virtual portfolio events in beginner-friendly language.
+    
+    event_type options:
+    - "buy_confirmed": user just bought an asset
+    - "sell_profit": user sold at a profit  
+    - "sell_loss": user sold at a loss
+    - "crash_event": market crash happened
+    - "rally_event": market rally happened
+    - "profile_mismatch": user trying to buy asset that doesn't suit their profile
+    - "daily_update": end of day summary
+    
+    event_data contains: asset_name, amount, pnl, pnl_pct, reason, current_price, etc.
+    investor_profile: Conservative / Moderate / Growth / Aggressive (from ML model)
+    """
+    
+    system_prompt = """You are FinBuddy, a friendly SEBI-registered virtual investment mentor.
+Explain financial events in simple Hinglish for first-time Indian investors aged 18-25.
+Rules:
+- Keep responses under 80 words
+- Never use jargon without immediately explaining it in brackets
+- Be warm and encouraging, never scary
+- Use relatable Indian examples (chai, cricket, etc.) occasionally
+- For losses: be supportive, explain WHY, suggest what to do next
+- For profile mismatches: gently warn, suggest better alternatives
+- Always end with a positive/actionable note"""
+
+    # Build event-specific user message
+    event_messages = {
+        "buy_confirmed": (
+            f"User bought {event_data.get('asset_name', 'an asset')} worth "
+            f"₹{event_data.get('amount', 0):,.0f}. Current price: "
+            f"₹{event_data.get('current_price', 0):,.2f}. Their profile: {investor_profile}. "
+            f"Confirm the purchase warmly and give one tip."
+        ),
+        "sell_profit": (
+            f"User sold {event_data.get('asset_name', 'an asset')} and made "
+            f"₹{event_data.get('pnl', 0):,.0f} profit ({event_data.get('pnl_pct', 0):.1f}%). "
+            f"Explain why this happened and celebrate with them."
+        ),
+        "sell_loss": (
+            f"User sold {event_data.get('asset_name', 'an asset')} and lost "
+            f"₹{abs(event_data.get('pnl', 0)):,.0f} ({event_data.get('pnl_pct', 0):.1f}%). "
+            f"Reason: {event_data.get('reason', 'market fluctuation')}. "
+            f"Be supportive and explain how to recover."
+        ),
+        "crash_event": (
+            f"Market crash happened! {event_data.get('asset_name', 'An asset')} dropped "
+            f"{event_data.get('drop_pct', 0):.1f}% today. User's profile: {investor_profile}. "
+            f"Explain this calmly, don't panic them."
+        ),
+        "rally_event": (
+            f"Market rally! {event_data.get('asset_name', 'An asset')} surged "
+            f"{event_data.get('surge_pct', 0):.1f}% today. Celebrate but advise caution."
+        ),
+        "profile_mismatch": (
+            f"User (profile: {investor_profile}) is trying to buy "
+            f"{event_data.get('asset_name', 'a HIGH risk asset')} which is HIGH risk. "
+            f"Warn them gently and suggest {event_data.get('alternative', 'NIFTY_50_INDEX')} "
+            f"as a better alternative."
+        ),
+        "daily_update": (
+            f"End of day {event_data.get('day', 0)}. Portfolio value: "
+            f"₹{event_data.get('total_value', 0):,.0f}. Day's P&L: "
+            f"₹{event_data.get('day_pnl', 0):,.0f}. Give a brief encouraging summary."
+        ),
+    }
+
+    user_message = event_messages.get(event_type, f"Explain this event: {event_data}")
+
+    # Use the existing Groq client from this file (do not re-initialize)
+    if client is None:
+        # Fallback when GROQ_API_KEY is not set
+        fallbacks = {
+            "buy_confirmed": f"Nice! {event_data.get('asset_name', 'Asset')} mein invest kiya — smart start! SIP mode mein sochna, ek baar mein sab mat lagao. 🚀",
+            "sell_profit": f"Profit book kiya — badhai ho! ₹{event_data.get('pnl', 0):,.0f} kamaya. Yeh paisa reinvest karo diversified funds mein! 💰",
+            "sell_loss": "Market mein thoda neeche aaya, but yeh normal hai! Long-term sochte hain. 💪",
+            "crash_event": "Market crash scary lagta hai, but yeh temporary hota hai. Panic mat karo! History dekho — markets always recover. 🏏",
+            "rally_event": "Market rally — party time! But greedy mat bano, profits book karna bhi zaroori hai. 🎉",
+            "profile_mismatch": f"Yeh asset thoda risky hai for your {investor_profile} profile. {event_data.get('alternative', 'NIFTY_50_INDEX')} try karo — safer option hai!",
+            "daily_update": f"Day {event_data.get('day', 0)} complete! Portfolio: ₹{event_data.get('total_value', 0):,.0f}. Keep learning, keep growing! 🌱",
+        }
+        return fallbacks.get(event_type, "Investment journey chal rahi hai! Keep learning. 🌱")
+
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150,
+            temperature=0.7,
+        )
+        return response.choices[0].message.content
+    except Exception:
+        # Fallback messages
+        fallbacks = {
+            "sell_loss": "Market mein thoda neeche aaya, but yeh normal hai! Long-term sochte hain. 💪",
+            "crash_event": "Market crash scary lagta hai, but yeh temporary hota hai. Panic mat karo!",
+            "profile_mismatch": "Yeh asset thoda risky hai for your profile. Safe option try karo!",
+        }
+        return fallbacks.get(event_type, "Investment journey chal rahi hai! Keep learning. 🌱")

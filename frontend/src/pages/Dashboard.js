@@ -119,24 +119,24 @@ export default function Dashboard({ darkMode }) {
             HERO BANNER — AI-First Welcome
         ═══════════════════════════════════════════ */}
         <div
-          className={`relative p-8 rounded-2xl mb-8 overflow-hidden ${
+          className={`relative p-5 rounded-2xl mb-6 overflow-hidden ${
             darkMode ? 'bg-gradient-to-br from-tertiary via-quaternary to-tertiary border border-gray-800' : 'bg-gradient-to-br from-white to-blue-50'
           }`}
-          style={{ animation: 'revealSection 0.5s ease-out' }}
+          style={{ animation: 'revealSection 0.5s ease-out', maxHeight: '100px' }}
         >
           {/* Decorative orbs */}
           <div className="absolute top-0 right-0 w-72 h-72 bg-primary opacity-[0.06] rounded-full blur-3xl pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
           <div className="absolute bottom-0 left-0 w-52 h-52 bg-purple-500 opacity-[0.04] rounded-full blur-3xl pointer-events-none -translate-x-1/3 translate-y-1/3"></div>
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div className="relative z-10 flex flex-row items-center justify-between gap-4">
             <div className="flex-1">
               <p className={`text-sm font-semibold uppercase tracking-wider mb-2 ${darkMode ? 'text-primary' : 'text-primary'}`}>
                 Welcome back
               </p>
-              <h1 className={`text-3xl lg:text-4xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h1 className={`text-2xl font-bold mb-0 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 {user?.name?.split(' ')[0] || 'Investor'} 👋
               </h1>
-              <p className={`text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 {completedSteps === 3
                   ? 'All steps complete! Explore your insights and keep learning.'
                   : completedSteps === 0
@@ -149,15 +149,14 @@ export default function Dashboard({ darkMode }) {
             {/* Primary CTA — AI Profile */}
             <button
               onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })}
-              className="group flex items-center gap-3 px-6 py-4 rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-bold text-base shadow-lg hover:shadow-xl hover:scale-105 transition-all"
-              style={{ boxShadow: '0 4px 25px rgba(37, 99, 235, 0.35)' }}
+              className="group flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary to-purple-600 text-white font-bold text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all flex-shrink-0"
+              style={{ boxShadow: '0 4px 20px rgba(37, 99, 235, 0.3)' }}
             >
-              <div className="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                <Brain className="w-5 h-5" />
+              <div className="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                <Brain className="w-4 h-4" />
               </div>
               <div className="text-left">
-                <p className="text-sm opacity-80">Start Here</p>
-                <p className="text-base font-bold">Get AI Investment Analysis →</p>
+                <p className="text-sm font-bold">Get AI Analysis →</p>
               </div>
             </button>
           </div>
@@ -172,8 +171,7 @@ export default function Dashboard({ darkMode }) {
         {/* ═══════════════════════════════════════════
             JOURNEY TRACKER — Step Progress
         ═══════════════════════════════════════════ */}
-        <div className={`p-6 rounded-2xl mb-8 ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white shadow-sm'}`}
-          style={{ animation: 'revealSection 0.5s ease-out 0.1s forwards', opacity: 0 }}
+        <div className={`p-4 rounded-2xl mb-6 ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white shadow-sm'}`}
         >
           <div className="flex items-center justify-between mb-5">
             <h2 className={`text-lg font-bold flex items-center gap-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
@@ -188,7 +186,14 @@ export default function Dashboard({ darkMode }) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Progress connector bar */}
+          <div className="hidden md:flex items-center justify-center mb-3 px-8">
+            <div className="flex-1 h-1 rounded-full mx-1" style={{ background: journey.quizDone ? '#10B981' : (darkMode ? '#1e293b' : '#e5e7eb') }} />
+            <div className="flex-1 h-1 rounded-full mx-1" style={{ background: journey.simsDone || (stats?.total_simulations || 0) > 0 ? '#10B981' : (journey.quizDone ? '#3B82F6' : (darkMode ? '#1e293b' : '#e5e7eb')) }} />
+            <div className="flex-1 h-1 rounded-full mx-1" style={{ background: journey.aiDone ? '#10B981' : ((journey.simsDone || (stats?.total_simulations || 0) > 0) ? '#3B82F6' : (darkMode ? '#1e293b' : '#e5e7eb')) }} />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {[
               {
                 step: 1,
@@ -230,14 +235,12 @@ export default function Dashboard({ darkMode }) {
                 <button
                   key={i}
                   onClick={item.action}
-                  className={`group relative p-5 rounded-xl text-left transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 ${
+                  className={`group relative p-4 rounded-xl text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 ${
                     darkMode
                       ? 'bg-secondary border border-gray-700 hover:border-primary'
                       : 'bg-gray-50 border border-gray-200 hover:border-primary'
                   }`}
                   style={{
-                    animation: `revealSection 0.4s ease-out ${0.2 + i * 0.1}s forwards`,
-                    opacity: 0,
                     boxShadow: stepDone ? `0 0 20px ${item.glowColor}` : 'none',
                   }}
                 >
@@ -279,12 +282,11 @@ export default function Dashboard({ darkMode }) {
         {/* ═══════════════════════════════════════════
             STATS GRID — Key Metrics
         ═══════════════════════════════════════════ */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
-          style={{ animation: 'revealSection 0.5s ease-out 0.3s forwards', opacity: 0 }}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6"
         >
           {[
             { label: 'Simulations', value: stats?.total_simulations || 0, icon: BarChart3, color: 'text-primary', bg: 'bg-primary', sub: 'Practice sessions' },
-            { label: 'AI Analyses', value: aiHistory.length, icon: Sparkles, color: 'text-purple-500', bg: 'bg-purple-500', sub: 'ML predictions run' },
+            { label: 'AI Analyses', value: aiHistory.length || '—', icon: Sparkles, color: 'text-purple-500', bg: 'bg-purple-500', sub: 'ML predictions run' },
             { label: 'Invested (Virtual)', value: `₹${(stats?.stats?.total_invested || 0).toLocaleString()}`, icon: DollarSign, color: 'text-blue-400', bg: 'bg-blue-400', sub: 'Virtual portfolio' },
             {
               label: 'Avg Return',
@@ -297,7 +299,7 @@ export default function Dashboard({ darkMode }) {
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
-              <div key={i} className={`p-5 rounded-xl transition-all hover:scale-105 ${
+              <div key={i} className={`p-4 rounded-xl transition-all hover:scale-105 ${
                 darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white shadow-sm'
               }`}>
                 <div className="flex items-center justify-between mb-3">
@@ -308,7 +310,7 @@ export default function Dashboard({ darkMode }) {
                     <Icon className={`w-4 h-4 ${stat.color}`} />
                   </div>
                 </div>
-                <p className={`text-2xl font-bold ${stat.color}`}>
+                <p className={`text-xl font-bold ${stat.color}`}>
                   {stat.value}
                 </p>
                 <p className={`text-xs mt-1 ${darkMode ? 'text-gray-600' : 'text-gray-400'}`}>
@@ -326,7 +328,7 @@ export default function Dashboard({ darkMode }) {
           <div className={`p-6 rounded-2xl mb-8 relative overflow-hidden ${
             darkMode ? 'bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/20' : 'bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200'
           }`}
-            style={{ animation: 'revealSection 0.5s ease-out 0.35s forwards', opacity: 0 }}
+          style={{ animation: 'revealSection 0.5s ease-out' }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-purple-500/5 pointer-events-none"></div>
             <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -364,7 +366,6 @@ export default function Dashboard({ darkMode }) {
             FEAR SCORE HISTORY — Chart + List
         ═══════════════════════════════════════════ */}
         <div id="score-history" className={`p-6 rounded-2xl mb-8 ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white shadow-sm'}`}
-          style={{ animation: 'revealSection 0.5s ease-out 0.4s forwards', opacity: 0 }}
         >
           <div className="flex items-center justify-between mb-5">
             <div>
@@ -451,7 +452,6 @@ export default function Dashboard({ darkMode }) {
             ACHIEVEMENTS — Compact badges
         ═══════════════════════════════════════════ */}
         <div className={`p-6 rounded-2xl mb-8 ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white shadow-sm'}`}
-          style={{ animation: 'revealSection 0.5s ease-out 0.45s forwards', opacity: 0 }}
         >
           <h2 className={`text-lg font-bold mb-4 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
             <Award className="w-5 h-5 text-yellow-500" /> Achievements
@@ -483,7 +483,6 @@ export default function Dashboard({ darkMode }) {
         ═══════════════════════════════════════════ */}
         {!isEmpty && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"
-            style={{ animation: 'revealSection 0.5s ease-out 0.5s forwards', opacity: 0 }}
           >
             {riskDistribution.length > 0 && (
               <div className={`p-6 rounded-2xl ${darkMode ? 'bg-tertiary border border-gray-800' : 'bg-white shadow-sm'}`}>
@@ -558,8 +557,6 @@ export default function Dashboard({ darkMode }) {
           style={{
             border: darkMode ? '1px solid rgba(124,58,237,0.25)' : '1px solid rgba(37,99,235,0.15)',
             boxShadow: darkMode ? '0 0 40px rgba(124,58,237,0.08)' : '0 4px 20px rgba(0,0,0,0.06)',
-            animation: 'revealSection 0.5s ease-out 0.55s forwards',
-            opacity: 0,
           }}
         >
           {/* Decorative glow */}

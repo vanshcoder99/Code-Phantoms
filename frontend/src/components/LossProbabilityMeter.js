@@ -30,7 +30,7 @@ function RingGauge({ percentage, size = 220, strokeWidth = 14, darkMode }) {
         ease: 'power3.out',
         scrollTrigger: {
           trigger: circle,
-          start: 'top 85%',
+          start: 'top bottom',
           toggleActions: 'play none none none',
         },
       }
@@ -126,25 +126,25 @@ export default function LossProbabilityMeter({ darkMode, riskLevel = 'medium' })
     const ctx = gsap.context(() => {
       gsap.from(headingRef.current, {
         y: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none none' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top bottom', toggleActions: 'play none none none' },
       });
 
       gsap.from(contentRef.current, {
         y: 80, opacity: 0, scale: 0.95, duration: 1, delay: 0.15, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', toggleActions: 'play none none none' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top bottom', toggleActions: 'play none none none' },
       });
 
       if (cardsRef.current) {
         gsap.from(cardsRef.current.children, {
           y: 50, opacity: 0, scale: 0.9, duration: 0.7, stagger: 0.12, ease: 'back.out(1.3)',
-          scrollTrigger: { trigger: cardsRef.current, start: 'top 85%', toggleActions: 'play none none none' },
+          scrollTrigger: { trigger: sectionRef.current, start: 'top bottom', toggleActions: 'play none none none' },
         });
       }
 
       if (imageRef.current) {
         gsap.from(imageRef.current, {
           x: 80, opacity: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: imageRef.current, start: 'top 85%', toggleActions: 'play none none none' },
+          scrollTrigger: { trigger: sectionRef.current, start: 'top bottom', toggleActions: 'play none none none' },
         });
       }
     }, sectionRef);
@@ -196,7 +196,7 @@ export default function LossProbabilityMeter({ darkMode, riskLevel = 'medium' })
     <section
       ref={sectionRef}
       style={{
-        padding: '80px 16px',
+        padding: '24px 16px',
         background: darkMode
           ? 'linear-gradient(180deg, #0C1222 0%, #0F172A 50%, #131B2E 100%)'
           : 'linear-gradient(180deg, #F8FAFC 0%, #fff 100%)',
@@ -210,7 +210,7 @@ export default function LossProbabilityMeter({ darkMode, riskLevel = 'medium' })
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         {/* Heading */}
-        <div ref={headingRef} style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <div ref={headingRef} style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '8px 16px', borderRadius: '999px',

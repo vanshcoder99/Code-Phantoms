@@ -132,25 +132,23 @@ export default function Resources({ darkMode }) {
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'}`}>
       {/* Hero banner */}
-      <div style={{ padding: '48px 16px 32px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ padding: '16px 16px 8px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: 250, height: 250, background: 'radial-gradient(circle, rgba(37,99,235,0.06), transparent)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
-        <div style={{ width: 64, height: 64, margin: '0 auto 20px', borderRadius: 16, overflow: 'hidden', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+        <div style={{ width: 48, height: 48, margin: '0 auto 12px', borderRadius: 12, overflow: 'hidden', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
           <img src="/img-learn.png" alt="Learn" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-        <h1 className={`text-4xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+        <h1 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
           Learning Resources
         </h1>
-        <p className={`text-lg mb-4 max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        <p className={`text-sm mb-2 max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           Comprehensive guides and tutorials to help you master investing and overcome your fears
         </p>
       </div>
 
-      <SectionRibbon variant="wave" darkMode={darkMode} />
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-2">
 
         {/* Resource Categories */}
-        <div className="space-y-6 mb-12">
+        <div className="space-y-3 mb-8">
           {resources.map((category, idx) => {
             const Icon = category.icon;
             const isExpanded = expandedCategory === idx;
@@ -190,15 +188,15 @@ export default function Resources({ darkMode }) {
                       }, 10);
                     }
                   }}
-                  className={`w-full p-6 flex items-center justify-between hover:opacity-80 transition ${
+                  className={`w-full py-3 px-5 flex items-center justify-between hover:opacity-80 transition ${
                     darkMode ? 'hover:bg-secondary' : 'hover:bg-gray-50'
                   }`}
                 >
-                  <div className="flex items-center gap-4">
-                    <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(37,99,235,0.25)', transition: 'transform 0.3s', transform: isExpanded ? 'scale(1.1)' : 'scale(1)' }}>
-                      <Icon className="w-6 h-6 text-white" />
+                  <div className="flex items-center gap-3">
+                    <div style={{ width: 36, height: 36, background: 'linear-gradient(135deg, #2563EB, #7C3AED)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(37,99,235,0.2)', transition: 'transform 0.3s', transform: isExpanded ? 'scale(1.1)' : 'scale(1)' }}>
+                      <Icon className="w-5 h-5 text-white" />
                     </div>
-                    <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-quaternary'}`}>
                       {category.category}
                     </h2>
                   </div>

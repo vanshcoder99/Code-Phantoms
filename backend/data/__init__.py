@@ -1,0 +1,1 @@
+# InvestSafe Arena — Data module

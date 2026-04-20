@@ -76,7 +76,7 @@ export default function SectionRibbon({ variant = 'wave', darkMode }) {
   const heights = variant === 'split' ? ['2px', '3px', '2px', '3px'] : ['3px', '2px', '3px'];
 
   return (
-    <div ref={ref} style={{ padding: '12px 0', overflow: 'hidden', position: 'relative' }}>
+    <div ref={ref} style={{ padding: '4px 0', overflow: 'hidden', position: 'relative' }}>
       {colors.map((bg, i) => (
         <div key={i} style={{
           height: heights[i] || '2px',

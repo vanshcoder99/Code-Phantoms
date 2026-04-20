@@ -43,16 +43,16 @@ export default function About({ darkMode }) {
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-quaternary' : 'bg-gray-50'}`}>
       {/* Hero Section */}
-      <div className={`${darkMode ? 'bg-gradient-to-br from-secondary to-tertiary' : 'bg-gradient-to-br from-gray-100 to-gray-50'} py-20 px-4`}>
+      <div className={`${darkMode ? 'bg-gradient-to-br from-secondary to-tertiary' : 'bg-gradient-to-br from-gray-100 to-gray-50'} py-6 px-4`}>
         <div className="max-w-4xl mx-auto text-center">
           {/* Hero image */}
-          <div style={{ width: 80, height: 80, margin: '0 auto 24px', borderRadius: 20, overflow: 'hidden', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
+          <div style={{ width: 56, height: 56, margin: '0 auto 16px', borderRadius: 16, overflow: 'hidden', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'}` }}>
             <img src="/img-insights.png" alt="InvestSafe" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
-          <h1 className={`text-5xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h1 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             About InvestSafe
           </h1>
-          <p className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             A Code-Phantoms Hackathon 2026 Project — Empowering young investors to overcome fear and build wealth through education, simulation, and AI guidance
           </p>
         </div>
@@ -61,28 +61,28 @@ export default function About({ darkMode }) {
       <SectionRibbon variant="wave" darkMode={darkMode} />
 
       {/* Mission Section */}
-      <div className="py-20 px-4">
+      <div className="py-4 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className={`text-4xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h2 className={`text-2xl font-bold mb-4 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             Our Mission
           </h2>
-          <p className={`text-lg text-center mb-12 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-sm text-center mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Built during the Code-Phantoms Hackathon 2026, InvestSafe is a full-stack SaaS platform designed to help young investors overcome their fear of investing. We provide accessible, interactive tools that help users understand investment risk, practice with virtual money, and gain the confidence to invest in their future. Our mission is to democratize financial education and make investing accessible to everyone.
           </p>
 
           {/* Values Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {values.map((value, idx) => {
               const Icon = value.icon;
               return (
                 <div
                   key={idx}
-                  className={`p-6 rounded-lg shadow-lg text-center ${darkMode ? 'bg-tertiary' : 'bg-white'}`}
+                  className={`p-4 rounded-lg shadow-lg text-center ${darkMode ? 'bg-tertiary' : 'bg-white'}`}
                 >
-                  <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+                  <h3 className={`text-base font-bold mb-1 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
                     {value.title}
                   </h3>
                   <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -98,9 +98,9 @@ export default function About({ darkMode }) {
       <SectionRibbon variant="diagonal" darkMode={darkMode} />
 
       {/* Team Section */}
-      <div className={`py-20 px-4 ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
+      <div className={`py-6 px-4 ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
         <div className="max-w-6xl mx-auto">
-          <h2 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h2 className={`text-2xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             Meet Our Team
           </h2>
 
@@ -134,9 +134,9 @@ export default function About({ darkMode }) {
       <SectionRibbon variant="split" darkMode={darkMode} />
 
       {/* Milestones Section */}
-      <div className="py-20 px-4">
+      <div className="py-6 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h2 className={`text-2xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             Our Journey
           </h2>
 
@@ -170,12 +170,12 @@ export default function About({ darkMode }) {
       <SectionRibbon variant="stagger" darkMode={darkMode} />
 
       {/* Tech Stack Section */}
-      <div className={`py-20 px-4 ${darkMode ? 'bg-secondary bg-opacity-30' : 'bg-gray-100'}`}>
+      <div className={`py-6 px-4 ${darkMode ? 'bg-secondary bg-opacity-30' : 'bg-gray-100'}`}>
         <div className="max-w-6xl mx-auto">
-          <h2 className={`text-4xl font-bold mb-4 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h2 className={`text-2xl font-bold mb-3 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             Tech Stack
           </h2>
-          <p className={`text-center mb-12 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-center text-sm mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             Built with cutting-edge technologies for performance and scalability
           </p>
 
@@ -231,9 +231,9 @@ export default function About({ darkMode }) {
       </div>
 
       {/* Stats Section */}
-      <div className={`py-20 px-4 ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
+      <div className={`py-6 px-4 ${darkMode ? 'bg-tertiary' : 'bg-white'}`}>
         <div className="max-w-6xl mx-auto">
-          <h2 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h2 className={`text-2xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             By The Numbers
           </h2>
 
@@ -268,9 +268,9 @@ export default function About({ darkMode }) {
       <SectionRibbon variant="wave" darkMode={darkMode} />
 
       {/* Why Choose Us */}
-      <div className="py-20 px-4">
+      <div className="py-6 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h2 className={`text-2xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             Why Choose Investing Safe?
           </h2>
 
@@ -335,9 +335,9 @@ export default function About({ darkMode }) {
       </div>
 
       {/* CTA Section */}
-      <div className={`py-20 px-4 ${darkMode ? 'bg-gradient-to-r from-secondary to-tertiary' : 'bg-gradient-to-r from-gray-100 to-gray-50'}`}>
+      <div className={`py-6 px-4 ${darkMode ? 'bg-gradient-to-r from-secondary to-tertiary' : 'bg-gradient-to-r from-gray-100 to-gray-50'}`}>
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className={`text-4xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
+          <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-quaternary'}`}>
             Code-Phantoms Hackathon 2026
           </h2>
           <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>

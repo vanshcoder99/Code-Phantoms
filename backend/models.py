@@ -67,3 +67,41 @@ class AIChat(Base):
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     user = relationship("User", back_populates="chats")
+
+
+# ══════════════════════════════════════════════════════════════
+# InvestSafe Arena — Virtual Portfolio Simulator Models
+# ══════════════════════════════════════════════════════════════
+
+class VirtualPortfolio(Base):
+    __tablename__ = "virtual_portfolios"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)  # nullable for guest sessions
+    session_id = Column(String, unique=True, index=True)  # UUID for guest access
+    cash_balance = Column(Float, default=100000.0)
+    current_day = Column(Integer, default=0)  # simulated day counter for advance-day
+    investor_profile = Column(String, nullable=True)  # from ML model: Conservative/Moderate/Growth/Aggressive
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+    # Relationships
+    transactions = relationship("VirtualTransaction", back_populates="portfolio", cascade="all, delete-orphan")
+
+
+class VirtualTransaction(Base):
+    __tablename__ = "virtual_transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    portfolio_id = Column(Integer, ForeignKey("virtual_portfolios.id"), nullable=False)
+    asset_symbol = Column(String, nullable=False)
+    transaction_type = Column(String, nullable=False)  # BUY or SELL
+    shares = Column(Float, nullable=False)
+    price_per_share = Column(Float, nullable=False)
+    total_amount = Column(Float, nullable=False)
+    day_number = Column(Integer, nullable=False)  # which simulated day this happened
+    realized_pnl = Column(Float, default=0.0)  # only for SELL transactions
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    # Relationships
+    portfolio = relationship("VirtualPortfolio", back_populates="transactions")

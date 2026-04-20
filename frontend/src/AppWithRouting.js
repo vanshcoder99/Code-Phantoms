@@ -22,6 +22,7 @@ import Portfolio from './pages/Portfolio';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import FearQuiz from './pages/FearQuiz';
+import SimulatorPage from './pages/SimulatorPage';
 import './App.css';
 
 // ScrollToTop component to reset scroll position on navigation
@@ -120,6 +121,7 @@ function AppContent() {
         <Route path="/resources" element={<Resources darkMode={darkMode} />} />
         <Route path="/sip" element={<SIPCalculator darkMode={darkMode} />} />
         <Route path="/fear-quiz" element={<FearQuiz darkMode={darkMode} />} />
+        <Route path="/simulator" element={<SimulatorPage darkMode={darkMode} />} />
 
         {/* Auth Routes (guest only) */}
         <Route path="/login" element={
