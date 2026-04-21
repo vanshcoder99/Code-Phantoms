@@ -10,6 +10,7 @@ from routes.portfolio import router as portfolio_router
 from routes.dashboard import router as dashboard_router
 from routes.auth import router as auth_router
 from routes.simulator import router as simulator_router
+from routes.gamification import router as gamification_router
 from database import engine, Base
 
 # Create all database tables on startup
@@ -36,6 +37,7 @@ app.include_router(simulation_router)
 app.include_router(portfolio_router)
 app.include_router(dashboard_router)
 app.include_router(simulator_router, prefix="/simulator", tags=["simulator"])
+app.include_router(gamification_router)
 
 # Health check endpoint
 @app.get("/")

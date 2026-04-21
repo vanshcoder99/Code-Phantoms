@@ -23,6 +23,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import FearQuiz from './pages/FearQuiz';
 import SimulatorPage from './pages/SimulatorPage';
+import RewardsHub from './pages/RewardsHub';
 import './App.css';
 
 // ScrollToTop component to reset scroll position on navigation
@@ -143,6 +144,9 @@ function AppContent() {
         } />
         <Route path="/portfolio" element={
           <ProtectedRoute darkMode={darkMode}><Portfolio darkMode={darkMode} /></ProtectedRoute>
+        } />
+        <Route path="/rewards" element={
+          <ProtectedRoute darkMode={darkMode}><RewardsHub darkMode={darkMode} /></ProtectedRoute>
         } />
 
         {/* Fallback */}

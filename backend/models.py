@@ -105,3 +105,71 @@ class VirtualTransaction(Base):
 
     # Relationships
     portfolio = relationship("VirtualPortfolio", back_populates="transactions")
+
+
+# ══════════════════════════════════════════════════════════════
+# Gamification — Predictive Loot & Smart Spin Engine
+# ══════════════════════════════════════════════════════════════
+
+class UserGamification(Base):
+    """Per-user gamification profile: XP, level, streaks, coins."""
+    __tablename__ = "user_gamification"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
+    xp = Column(Integer, default=0)
+    level = Column(Integer, default=1)
+    streak_days = Column(Integer, default=0)
+    longest_streak = Column(Integer, default=0)
+    last_login_date = Column(String(10), nullable=True)   # "YYYY-MM-DD"
+    last_spin_date = Column(String(10), nullable=True)     # "YYYY-MM-DD"
+    total_spins = Column(Integer, default=0)
+    total_predictions = Column(Integer, default=0)
+    correct_predictions = Column(Integer, default=0)
+    virtual_coins = Column(Integer, default=100)
+    active_multiplier = Column(Float, default=1.0)         # from spin reward
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    # Relationships
+    user = relationship("User")
+    spins = relationship("SpinHistory", back_populates="gamification", cascade="all, delete-orphan")
+    predictions = relationship("PredictionChallenge", back_populates="gamification", cascade="all, delete-orphan")
+
+
+class SpinHistory(Base):
+    """Log of each daily spin result."""
+    __tablename__ = "spin_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    gamification_id = Column(Integer, ForeignKey("user_gamification.id"), nullable=False)
+    reward_type = Column(String(30), nullable=False)    # "xp", "coins", "multiplier", "tip", "jackpot"
+    reward_value = Column(Integer, default=0)
+    reward_label = Column(String(100), nullable=False)  # "+50 XP", "🎰 JACKPOT!"
+    spin_date = Column(String(10), nullable=False)      # "YYYY-MM-DD"
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    # Relationships
+    gamification = relationship("UserGamification", back_populates="spins")
+
+
+class PredictionChallenge(Base):
+    """Tracks each user's market prediction for the Predictive Loot system."""
+    __tablename__ = "prediction_challenges"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    gamification_id = Column(Integer, ForeignKey("user_gamification.id"), nullable=False)
+    asset_symbol = Column(String(30), nullable=False)
+    prediction = Column(String(10), nullable=False)        # "UP" or "DOWN"
+    predicted_price = Column(Float, nullable=False)         # price at time of prediction
+    result_price = Column(Float, nullable=True)             # price after resolution
+    is_correct = Column(Integer, nullable=True)             # 0 or 1, null = pending
+    xp_earned = Column(Integer, default=0)
+    coins_earned = Column(Integer, default=0)
+    prediction_date = Column(String(10), nullable=False)    # "YYYY-MM-DD"
+    resolved = Column(Integer, default=0)                   # 0 = pending, 1 = resolved
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    # Relationships
+    gamification = relationship("UserGamification", back_populates="predictions")

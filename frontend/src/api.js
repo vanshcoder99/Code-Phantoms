@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // API base URL - change this for production
-const API_BASE = process.env.REACT_APP_API_URL || 'https://investsafe-backend.onrender.com'; // Auto-detect: set REACT_APP_API_URL for production
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000'; // Change to Render URL for production deploy
 
 // Create axios instance with defaults
 const api = axios.create({

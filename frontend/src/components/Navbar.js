@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Moon, Sun, BarChart3, BookOpen, User, History, Info, LogIn, LogOut, UserPlus, Brain, Swords, ChevronDown, Settings } from 'lucide-react';
+import { Menu, X, Moon, Sun, BarChart3, BookOpen, User, History, Info, LogIn, LogOut, UserPlus, Brain, Swords, ChevronDown, Settings, Gift } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 
 export default function Navbar({ darkMode, setDarkMode }) {
@@ -39,6 +39,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
 
   const authLinks = [
     { path: '/dashboard', label: 'Dashboard', icon: BarChart3 },
+    { path: '/rewards', label: 'Rewards', icon: Gift },
     { path: '/history', label: 'History', icon: History },
   ];
 
@@ -62,6 +63,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
               const Icon = link.icon;
               const isActive = location.pathname === link.path;
               const isArena = link.path === '/simulator';
+              const isRewards = link.path === '/rewards';
               return (
                 <Link
                   key={link.path}
@@ -72,10 +74,12 @@ export default function Navbar({ darkMode, setDarkMode }) {
                       ? { background: 'rgba(99,102,241,0.12)', color: '#4F46E5', fontWeight: 600 }
                       : isArena
                         ? { color: darkMode ? '#A78BFA' : '#7C3AED', fontWeight: 600 }
-                        : { color: darkMode ? '#9CA3AF' : '#374151' }
+                        : isRewards
+                          ? { color: darkMode ? '#FBBF24' : '#D97706', fontWeight: 600 }
+                          : { color: darkMode ? '#9CA3AF' : '#374151' }
                   }
                 >
-                  <Icon className="w-4 h-4" style={{ color: isActive ? '#4F46E5' : isArena ? '#A78BFA' : undefined }} />
+                  <Icon className="w-4 h-4" style={{ color: isActive ? '#4F46E5' : isArena ? '#A78BFA' : isRewards ? '#FBBF24' : undefined }} />
                   <span>{link.label}</span>
                 </Link>
               );
